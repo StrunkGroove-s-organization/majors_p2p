@@ -1,17 +1,11 @@
 from secrets import NAME_PG, USER_PG, PASSWORD_PG, HOST_PG, PORT_PG
 from secrets import PASSWORD_REDIS, HOST_REDIS, PORT_REDIS, NUMBER_REDIS
+from secrets import SECRET_KEY
 
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p0^g3-svhhra(!k))u#=(4g&tvrkrlhow40l-28@j*_f1o583w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
