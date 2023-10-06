@@ -1,11 +1,10 @@
+from .secrets import SECRET_KEY
 from .secrets import NAME_PG, USER_PG, PASSWORD_PG, HOST_PG, PORT_PG
 from .secrets import PASSWORD_REDIS, HOST_REDIS, PORT_REDIS, NUMBER_REDIS
 
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = 'django-insecure-p0^g3-svhhra(!k))u#=(4g&tvrkrlhow40l-28@j*_f1o583w'
 
 DEBUG = False
 
