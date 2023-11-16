@@ -219,13 +219,13 @@ class BinaryP2PServices(BaseAndFiltersP2P):
         else:
             return 'Values doesnt exists'
 
-        # self.filter_required(values)
-        # self.filter_required_ex(values)
-        # self.filter_spread(values)
-        # self.first_filter_lim(values)
-        # self.second_filter_lim(values)
-        # self.filter_ord_q(values)
-        # self.filter_ord_p(values)
-        # self.filter_first_available(values)
-        # self.filter_second_available(values)
+        self.filter_required(values)
+        self.filter_required_ex(values)
+        self.filter_spread(values)
+        self.first_filter_lim(values)
+        self.second_filter_lim(values)
+        self.filter_ord_q(values)
+        self.filter_ord_p(values)
+        self.filter_first_available(values)
+        self.filter_second_available(values)
         return values
