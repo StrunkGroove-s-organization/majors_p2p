@@ -1,7 +1,7 @@
 version: '3'
 services:
     db:
-        container_name: db
+        container_name: p2p-db
         image: postgres:16
         volumes:
             - ./db/postgres:/var/lib/postgresql/data/
@@ -13,9 +13,9 @@ services:
             - network
 
     redis:
-        container_name: redis
+        container_name: p2p-redis
         ports:
-            - 6379:6379
+            - 6380:6379
         volumes:
             - ./db/redis:/data
         image: redis:7-alpine
@@ -23,7 +23,7 @@ services:
             - network
 
     rabbitmq:
-        container_name: rabbitmq
+        container_name: p2p-rabbitmq
         image: rabbitmq:management
         env_file:
             - .env
@@ -34,7 +34,7 @@ services:
             - network
 
     web:
-        container_name: web
+        container_name: p2p-web
         restart: always
         build: .
         command: python manage.py runserver 0.0.0.0:8000
@@ -51,7 +51,7 @@ services:
             - network
 
     celery:
-        container_name: celery
+        container_name: p2p-celery
         build:
             context: .
         command: celery -A main worker --loglevel=info
@@ -67,7 +67,7 @@ services:
             - network
 
     celery-beat:
-        container_name: celery-beat
+        container_name: p2p-celery-beat
         build:
             context: .
         command: celery -A main beat --loglevel=Error
@@ -81,7 +81,7 @@ services:
             - network
             
     flower:
-        container_name: flower
+        container_name: p2p-flower
         build:
             context: .
         volumes:

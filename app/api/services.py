@@ -24,6 +24,22 @@ class BaseAndFiltersP2P(BaseP2P):
             data.pop(index)
 
 
+    def filter_only_stable_coin(self, data):
+        only_stable_coin = self.validated_data.get('only_stable_coin')
+
+        if not only_stable_coin: return 
+
+        delete_indexes = []
+
+        for index, ad in enumerate(data):
+            token = ad['2']['token']
+
+            if token != 'USDT':
+                delete_indexes.append(index)
+        
+        self.delete_ads(data, delete_indexes)
+
+
     def filter_required(self, data):
         pay_methods = self.validated_data['payment_methods']
 
@@ -53,7 +69,7 @@ class BaseAndFiltersP2P(BaseP2P):
                 'Beribit': 'exchange_beribit',
                 'Hodl Hodl': 'exchange_hodlhodl',
                 'mexc': 'exchange_mexc',
-                'kucoin': 'exchange_kucoin',
+                'Kucoin': 'exchange_kucoin',
                 'gateio': 'exchange_gateio',
                 'TotalCoin': 'exchange_totalcoin',
             }
@@ -68,15 +84,15 @@ class BaseAndFiltersP2P(BaseP2P):
 
 
     def filter_spread(self, data):
-        spread_max = self.validated_data.get('spread_max')
+        user_spread = self.validated_data.get('user_spread')
 
-        if spread_max:
+        if user_spread:
             delete_indexes = []
 
             for index, ad in enumerate(data):
                 spread = ad['spread']
 
-                if spread >= spread_max:
+                if spread >= user_spread:
                     delete_indexes.append(index)
         
             self.delete_ads(data, delete_indexes)
@@ -110,7 +126,7 @@ class BaseAndFiltersP2P(BaseP2P):
             first_lim_min = ad['2']['lim_min']
             first_lim_max = ad['2']['lim_max']
 
-            if first_lim_min >= lim or lim >= first_lim_max:
+            if first_lim_min > lim or lim > first_lim_max:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -159,9 +175,8 @@ class BaseAndFiltersP2P(BaseP2P):
 
         for index, ad in enumerate(data):
             first_available = ad['1']['available']
-            second_available = ad['2']['available']
 
-            if available <= first_available or available <= second_available:
+            if available <= first_available:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -175,10 +190,9 @@ class BaseAndFiltersP2P(BaseP2P):
         delete_indexes = []
 
         for index, ad in enumerate(data):
-            first_available = ad['1']['available']
             second_available = ad['2']['available']
 
-            if available <= first_available or available <= second_available:
+            if available <= second_available:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -197,15 +211,28 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         key = self.create_key(trade_type, crypto, self.number)
         values = cache.get(key)
         if values:
-            return sorted(values, key=lambda item: item['spread'], reverse=True)
+            sorted(values, key=lambda item: item['spread'], reverse=True)
         else:
             return 'Values doesnt exists'
+
+        self.filter_required(values)
+        self.filter_required_ex(values)
+        self.filter_spread(values)
+        self.first_filter_lim(values)
+        self.second_filter_lim(values)
+        self.filter_ord_q(values)
+        self.filter_ord_p(values)
+        self.filter_first_available(values)
+        self.filter_second_available(values)
+        self.filter_only_stable_coin(values)
+        return values
 
 
 class BinaryP2PServices(BaseAndFiltersP2P):
     def __init__(self, validated_data):
         super().__init__(validated_data)
         self.number = 2
+
 
     def get_ads(self):
         trade_type = self.get_trade_type()
