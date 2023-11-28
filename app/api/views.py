@@ -10,11 +10,12 @@ class BinaryP2PView(APIView):
     def post(self, request):
         serializer = P2PSerializer(data=request.data)
         
-        if serializer.is_valid():
-            p2p = BinaryP2PServices(serializer.validated_data)
-            response = p2p.get_ads()
-            return Response(response)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        p2p = BinaryP2PServices(serializer.validated_data)
+        response = p2p.get_ads()
+        return Response(response)
 
 
 class TriangularP2PView(APIView):
@@ -22,7 +23,8 @@ class TriangularP2PView(APIView):
         serializer = P2PSerializer(data=request.data)
         
         if serializer.is_valid():
-            p2p = TriangularP2PServices(serializer.validated_data)
-            response = p2p.get_ads()
-            return Response(response)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        p2p = TriangularP2PServices(serializer.validated_data)
+        response = p2p.get_ads()
+        return Response(response)

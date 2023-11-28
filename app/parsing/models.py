@@ -28,13 +28,43 @@ class BaseExchange(models.Model):
         abstract = True
 
 
-class TotalCoin(BaseExchange):
+class TotalCoinModel(BaseExchange):
     exchange = models.CharField(default='TotalCoin')
     class Meta:
         db_table = 'exchange_totalcoin'
 
 
-class Kucoin(BaseExchange):
+class KucoinModel(BaseExchange):
     exchange = models.CharField(default='Kucoin')
     class Meta:
         db_table = 'exchange_kucoin'
+
+
+class GarantexModel(BaseExchange):
+    exchange = models.CharField(default='Garantex')
+    class Meta:
+        db_table = 'exchange_garantex'
+
+
+class GateioModel(BaseExchange):
+    exchange = models.CharField(default='Gateio')
+    class Meta:
+        db_table = 'exchange_gateio'
+
+
+class HodlHodlModel(BaseExchange):
+    exchange = models.CharField(default='HodlHodl')
+    class Meta:
+        db_table = 'exchange_hodlhodl'
+
+
+class HuobiModel(BaseExchange):
+    exchange = models.CharField(default='Huobi')
+    class Meta:
+        db_table = 'exchange_huobi'
+
+
+class BybitModel(BaseExchange):
+    exchange = models.CharField(default='Bybit')
+    class Meta:
+        db_table = 'exchange_bybit'

@@ -15,7 +15,8 @@ EXTENSIONS_APP = [
     'api',
     'count',
     'parsing',
-    
+
+    'django_prometheus',
     'rest_framework',
 ]
 
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
 ] + EXTENSIONS_APP
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -36,6 +38,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -60,7 +63,7 @@ WSGI_APPLICATION = 'main.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django_prometheus.db.backends.postgresql',
         'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
@@ -71,7 +74,7 @@ DATABASES = {
 
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
+        "BACKEND": 'django_prometheus.cache.backends.redis.RedisCache',
         "LOCATION": f"redis://redis:{os.getenv('REDIS_PORT')}/{os.getenv('REDIS_NUMBER')}",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",

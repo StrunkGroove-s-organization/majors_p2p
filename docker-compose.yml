@@ -39,7 +39,7 @@ services:
         build: .
         command: python manage.py runserver 0.0.0.0:8000
         ports:
-            - 8002:8000
+            - 8000:8000
         env_file:
             - .env
         volumes:
@@ -87,11 +87,40 @@ services:
         volumes:
             - ./app:/app
         ports:
-            - "5555:5555"
-        command: sh -c "sleep 2 && celery -A main flower"
+            - 5555:5555
+        command: sh -c "sleep 4 && celery -A main flower"
+        env_file:
+            - .env
         depends_on:
             - celery
             - celery-beat
+        networks:
+            - network
+
+    prometheus:
+        container_name: p2p-prometheus
+        image: prom/prometheus:v2.30.0
+        ports:
+            - 9090:9090
+        volumes:
+            - ./prometheus:/etc/prometheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+        depends_on:
+            - flower
+        networks:
+            - network
+
+    grafana:
+        image: grafana/grafana:8.0.6
+        ports:
+            - 3000:3000
+        env_file:
+            - .env
+        depends_on:
+            - prometheus
+        networks:
+            - network
 
 networks:
   network:

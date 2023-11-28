@@ -58,7 +58,15 @@ class BaseCount:
                     'Tinkoff', 'Sber', 'ЮMoney', 'MTS-Bank', 'Raiffeisenbank',
                 }
             },
-
+            'exchange_garantex': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH', 'USDC', 'DAI'
+                },
+                'pay': {
+                    'Tinkoff', 'Sber',
+                }
+            },
+            
             # 'exchange_mexc': {
             #     'tokens': {
             #         'USDT', 'BTC', 'ETH', 'USDC',
@@ -67,14 +75,14 @@ class BaseCount:
             #         'Tinkoff', 'Sber',
             #     }
             # },
-            # 'exchange_hodlhodl': {
-            #     'tokens': {
-            #         'BTC'
-            #     },
-            #     'pay': {
-            #         'Tinkoff', 'Sber',
-            #     }
-            # },
+            'exchange_hodlhodl': {
+                'tokens': {
+                    'BTC'
+                },
+                'pay': {
+                    'Tinkoff', 'Sber',
+                }
+            },
             # 'exchange_bitpapa': {
             #     'tokens': {
             #         'USDT', 'BTC', 'ETH', 'TON', 'XMR',
@@ -87,14 +95,14 @@ class BaseCount:
             #         'Raiffeisenbank',
             #     }
             # },
-            # 'exchange_gateio': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH'
-            #     },
-            #     'pay': {
-            #         'Raiffeisenbank', 'QIWI',
-            #     }
-            # },
+            'exchange_gateio': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH'
+                },
+                'pay': {
+                    'Raiffeisenbank', 'QIWI',
+                }
+            },
             # 'exchange_beribit': {
             #     'tokens': {
             #         'USDT'
@@ -103,40 +111,32 @@ class BaseCount:
             #         'Tinkoff', 'Sber',
             #     }
             # }, 
-            # 'exchange_garantex': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH', 'USDC', 'DAI'
-            #     },
-            #     'pay': {
-            #         'Tinkoff', 'Sber',
-            #     }
-            # },
-            # 'exchange_bybit': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH', 'USDC'
-            #     },
-            #     'pay': {
-            #         'Raiffeisenbank',
-            #         'Russia-Standart-Bank',
-            #         'ЮMoney',
-            #         'Tinkoff',
-            #         'Sber',
-            #     }
-            # },
-            # 'exchange_huobi': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH', 'USDD', 'HT', 'TRX', 'EOS', 'XRP', 'LTC'
-            #     },
-            #     'pay': {
-            #         'Tinkoff',
-            #         'Sber',
-            #         'ЮMoney',
-            #         'MTS-Bank',
-            #         'Raiffeisenbank',
-            #         'Post-Bank',
-            #         'SBP',
-            #     }
-            # },
+            'exchange_bybit': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH', 'USDC'
+                },
+                'pay': {
+                    'Raiffeisenbank',
+                    # 'Russia-Standart-Bank',
+                    # 'ЮMoney',
+                    'Tinkoff',
+                    'Sber',
+                }
+            },
+            'exchange_huobi': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH', 'USDD', 'HT', 'TRX', 'EOS', 'XRP', 'LTC'
+                },
+                'pay': {
+                    'Tinkoff',
+                    'Sber',
+                    'ЮMoney',
+                    'MTS-Bank',
+                    'Raiffeisenbank',
+                    'Post-Bank',
+                    'SBP',
+                }
+            },
         }
 
 
