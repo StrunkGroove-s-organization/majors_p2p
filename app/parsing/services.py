@@ -300,14 +300,14 @@ class GarantexParsing(BaseParsingP2P):
         return data
 
 
-    def create_record(self, entry, token):
+    def create_record(self, entry, token, site):
         record = self.class_db()
         record.id = self.index
         record.name = 'Биржевой стакан'
         record.order_q = 100
         record.order_p = 100
         record.payments = ['Tinkoff', 'Sber']
-        record.buy_sell = 'BUY'
+        record.buy_sell = 'BUY' if site == 'bid' else 'SELL'
         record.price = float(entry['price'])
         record.lim_min = 500
         record.lim_max = float(entry['amount'])
@@ -329,7 +329,7 @@ class GarantexParsing(BaseParsingP2P):
                 ads = data[symbol][site][:self.number_ads]
 
                 for entry in ads:
-                    record = self.create_record(entry, token)
+                    record = self.create_record(entry, token, site)
                     self.ads_list.append(record)
                     self.index += 1
 
