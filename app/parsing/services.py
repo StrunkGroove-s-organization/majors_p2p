@@ -4,20 +4,8 @@ import json
 import requests
 
 
-class BaseParsingP2P:
-    def __init__(self, dict: dict):
-        self.session = requests.Session()
-        self.url = dict['url']  
-        self.headers = dict.get('headers')  
-        self.timeout = dict.get('timeout')  
-
-        self.trade_types = dict.get('trade_types')
-        self.currencies = dict.get('currencies')
-        self.pay_types = dict.get('pay_types')
-        self.path_list = dict.get('path')
-
-        self.index = 1
-        self.class_db = dict['class_db']  
+class BaseP2P:
+    def __init__(self):
         self.payments = {
             'tinkoff': 'Tinkoff',
             'sber': 'Sber',
@@ -42,6 +30,24 @@ class BaseParsingP2P:
             'home': 'Банк Хоум Кредит',
             'vtb': 'VTB',
         }
+
+
+class BaseParsingP2P(BaseP2P):
+    def __init__(self, dict: dict):
+        super().__init__()
+
+        self.session = requests.Session()
+        self.url = dict['url']  
+        self.headers = dict.get('headers')  
+        self.timeout = dict.get('timeout')  
+
+        self.trade_types = dict.get('trade_types')
+        self.currencies = dict.get('currencies')
+        self.pay_types = dict.get('pay_types')
+        self.path_list = dict.get('path')
+
+        self.index = 1
+        self.class_db = dict['class_db']  
 
 
     def fetch(self, url_params: dict) -> dict:

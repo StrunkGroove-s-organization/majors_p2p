@@ -4,13 +4,16 @@ from django.db import connection
 from django.core.cache import cache
 from psycopg2.extensions import AsIs
 
+from parsing.serveces import BaseP2P
 from .models import (
     AdsInTwo, BestLinksInTwoActions,
     AdsInThree, BestLinksInThreeActions,
 )
 
-class BaseCount:
+class BaseCount(BaseP2P):
     def __init__(self):
+        super().__init__()
+
         self.time_cash = 60
         self.min_spread = 0.01
         self.buy_sell = ['BUY', 'SELL']
@@ -21,24 +24,8 @@ class BaseCount:
             's-s': 'SELL-SELL',
         }
         self.tokens = [
-            "USDT",
-            "BTC",
-            "ETH",
-            "BUSD",
-            "BNB",
-            "DOGE",
-            "TRX",
-            "USDD",
-            "USDC",
-            "RUB",
-            "HT",
-            "EOS",
-            "XRP",
-            "LTC",
-            "GMT",
-            "TON",
-            "XMR",
-            "DAI",
+            "USDT", "BTC", "ETH", "BUSD", "BNB", "DOGE", "TRX", "USDD", "USDC",
+            "RUB", "HT", "EOS", "XRP", "LTC", "GMT", "TON", "XMR", "DAI", 
             "TUSD",
         ]
         self.exchanges = {
@@ -47,7 +34,7 @@ class BaseCount:
                     'USDT', 'BTC', 'ETH', 'USDC',
                 },
                 'pay': {
-                    'SBP', 'Bank Transfer',
+                    self.payments['sbp'], self.payments['bank'],
                 }
             }, 
             'exchange_totalcoin': {
@@ -55,7 +42,9 @@ class BaseCount:
                     'USDT', 'BTC', 'ETH', 'LTC',
                 },
                 'pay': {
-                    'Tinkoff', 'Sber', 'ЮMoney', 'MTS-Bank', 'Raiffeisenbank',
+                    self.payments['tinkoff'], self.payments['sber'],
+                    self.payments['ymoney'], self.payments['mts'], 
+                    self.payments['raiffeisen'],
                 }
             },
             'exchange_garantex': {
@@ -63,7 +52,7 @@ class BaseCount:
                     'USDT', 'BTC', 'ETH', 'USDC', 'DAI'
                 },
                 'pay': {
-                    'Tinkoff', 'Sber',
+                    self.payments['tinkoff'], self.payments['sber'],
                 }
             },
             
@@ -80,7 +69,7 @@ class BaseCount:
                     'BTC'
                 },
                 'pay': {
-                    'Tinkoff', 'Sber',
+                    self.payments['tinkoff'], self.payments['sber'],
                 }
             },
             # 'exchange_bitpapa': {
@@ -100,7 +89,7 @@ class BaseCount:
                     'USDT', 'BTC', 'ETH'
                 },
                 'pay': {
-                    'Raiffeisenbank', 'QIWI',
+                    self.payments['raiffeisen'], self.payments['qiwi'],
                 }
             },
             # 'exchange_beribit': {
@@ -116,11 +105,9 @@ class BaseCount:
                     'USDT', 'BTC', 'ETH', 'USDC'
                 },
                 'pay': {
-                    'Raiffeisenbank',
-                    # 'Russia-Standart-Bank',
-                    # 'ЮMoney',
-                    'Tinkoff',
-                    'Sber',
+                    self.payments['raiffeisen'],
+                    self.payments['tinkoff'],
+                    self.payments['sber'],
                 }
             },
             'exchange_huobi': {
@@ -128,13 +115,10 @@ class BaseCount:
                     'USDT', 'BTC', 'ETH', 'USDD', 'HT', 'TRX', 'EOS', 'XRP', 'LTC'
                 },
                 'pay': {
-                    'Tinkoff',
-                    'Sber',
-                    'ЮMoney',
-                    'MTS-Bank',
-                    'Raiffeisenbank',
-                    'Post-Bank',
-                    'SBP',
+                    self.payments['raiffeisen'], self.payments['post'],
+                    self.payments['tinkoff'], self.payments['sber'],
+                    self.payments['sbp'], self.payments['russian'],
+                    self.payments['post'],
                 }
             },
         }
