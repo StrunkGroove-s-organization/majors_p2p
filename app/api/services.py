@@ -63,7 +63,7 @@ class BaseAndFiltersP2P(BaseP2P):
         for index, ad in enumerate(data):
             ex = {
                 'Bybit': 'exchange_bybit',
-                'huobi': 'exchange_huobi',
+                'Huobi': 'exchange_huobi',
                 'Garantex': 'exchange_garantex',
                 'Bitpapa': 'exchange_bitpapa',
                 'Beribit': 'exchange_beribit',
