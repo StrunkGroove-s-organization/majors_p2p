@@ -4,7 +4,7 @@ from django.db import connection
 from django.core.cache import cache
 from psycopg2.extensions import AsIs
 
-from parsing.serveces import BaseP2P
+from parsing.services import BaseP2P
 from .models import (
     AdsInTwo, BestLinksInTwoActions,
     AdsInThree, BestLinksInThreeActions,
