@@ -15,41 +15,41 @@ app.conf.beat_schedule = {
     ### Parsing ###
     'bybit-task': {
         'task': 'parsing.tasks.bybit',
-        'schedule': 50,
+        'schedule': 30,
     },
     'huobi-task': {
         'task': 'parsing.tasks.huobi',
-        'schedule': 60,
+        'schedule': 30,
     },
     'gateio-task': {
         'task': 'parsing.tasks.gateio',
-        'schedule': 30,
+        'schedule': 15,
     },
     'garantex-task': {
         'task': 'parsing.tasks.garantex',
-        'schedule': 30,
+        'schedule': 5,
     },
     'totalcoin-task': {
         'task': 'parsing.tasks.totalcoin',
-        'schedule': 30,
+        'schedule': 10,
     },
     'kucoin-task': {
         'task': 'parsing.tasks.kucoin',
-        'schedule': 30,
+        'schedule': 20,
     },
     'hodlhodl-task': {
         'task': 'parsing.tasks.hodlhodl',
-        'schedule': 30,
+        'schedule': 20,
     },
 
     ## Calculations ###
     'count-two-actions-task': {
         'task': 'count.tasks.count_in_two_actions',
-        'schedule': 30,
+        'schedule': 10,
     },
     'count-three-actions-task': {
         'task': 'count.tasks.count_in_three_actions',
-        'schedule': 30,
+        'schedule': 10,
     },
 }
 

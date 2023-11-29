@@ -23,7 +23,9 @@ class BaseParsingP2P:
             'sber': 'Sber',
             'sbp': 'SBP',
             'raiffeisen': 'Raiffeisen',
-            'bank': 'bank_transfer',
+            'bank': 'Bank Transfer',
+            'post': 'Post Bank',
+            'russian': 'Russian Standart',
 
             'alfa': 'Alfa',
             'mir': 'MIR',
@@ -50,84 +52,6 @@ class BaseParsingP2P:
             return None
         return response.json()
     
-
-    def switch(self, method: str) -> str: # FIXME
-        if method in [
-                'B8', '97', '186', '64', 'Raiffeisen Bank', 'Райффайзенбанк',
-                'Raiffeisenbank'
-            ]:
-            return 'Raiffeisenbank'
-
-        elif method in ['B47', 'B21']: # ???
-            return 'Tinkoff'
-
-        elif method in ['B3', '13', '75', 'Тинькофф', 'Tinkoff', '581']:
-            return 'Tinkoff'
-
-        elif method in ['B39', 'Россельхозбанк']:
-            return 'RosBank'
-
-        elif method in ['B44', '44', 'MTS Bank', 'MTS-Bank']:
-            return 'MTS-Bank'
-
-        elif method in ['B2', '1', 'Alfa-Bank', 'Альфа-банк', 'Alfa Bank']:
-            return 'Alfa-Bank'
-
-        elif method in [
-                'B1', '12', 'RosBank', '185', 'Sberbank', 'СберБанк', 'Sber','582',
-            ]:
-            return 'Sber'
-
-        elif method in ['B7', 'Газпромбанк', 'Gazprom']:
-            return 'Gazprom'
-
-        elif method in ['31', '22', '62', 'QiWi', 'QIWI']:
-            return 'QIWI'
-
-        elif method in [
-                '274', 'YM', 'Yandex', 'YooMoney', 'Юmoney', 'ЮMoney', '574'
-            ]:
-            return 'ЮMoney'
-
-        elif method in ['14', 'BANK_TRANSFER']:
-            return 'BANK'
-
-        elif method in ['CASH', '90']:
-            return 'Cash'
-
-        elif method in ['B13', 'Pochta Bank', 'Post Bank', '357']:
-            return 'Post-Bank'
-
-        elif method in [
-                'Home Credit Bank (Russia)', '102', 'Банк Хоум Кредит',
-                'Home Credit Bank  (Russia)', 'Home Credit Bank'
-            ]:
-            return 'Home Credit Bank'
-
-        elif method in [
-                'B80', '23', '74', 'SBP - Fast Bank Transfer',
-                'SBP System of fast payments', 'СБП', 'SBP',
-            ]:
-            return 'SBP'
-
-        elif method in ['B5', 'VTB', 'ВТБ']:
-            return 'VTB'
-
-        elif method in ['73', 'Russia Standart Bank', '533']:
-            return 'Russia-Standart-Bank'
-
-        elif method in ['70', 'AK Bars Bank']:
-            return 'AK Bars Bank'
-
-        elif method in ['2', 'Банковская карта']:
-            return 'Банковская карта'
-
-        # elif method in ['B23', 'B15', 'B41', 'B22', 'B16', 'B14', 'USDT', 'Advanced cash RUB', 'Mobile Recharge', 'Payeer RUB', 'BTC Bitcoin']:
-            # pass
-        
-        else:
-            return None
-
 
     def update_payment_methods(self, payment_methods: list) -> None:
         updated_methods = []
@@ -419,13 +343,13 @@ class GateioParsing(BaseParsingP2P):
 
     def switch(self, method: str) -> str:
         match method:
-            case 'BANK_TRANSFER':
-                return self.payments['bank']
-            case 'SBP':
-                return self.payments['sbp']
+            case '22':
+                return self.payments['qiwi']
+            case '186':
+                return self.payments['raiffeisen']
             
             case _:
-                return method
+                return None
 
 
     def create_record(self, ad: dict, dict: dict):
@@ -498,37 +422,6 @@ class HodlHodlParsing(BaseParsingP2P):
             return None
         return response.json()
 
-        
-    def switch(self, method: str) -> str:
-        match method:
-            case 'BANK_TRANSFER':
-                return self.payments['bank']
-            
-            case _:
-                return method
-
-
-    def create_record(self, ad: dict, dict: dict):
-        record = self.class_db()
-        record.id = self.index
-        record.name = dict['name']
-        record.payments = dict['payments']
-        record.buy_sell = dict['buy_sell']
-        record.token = dict['token']
-        record.price = dict['price']
-
-        rating = ad['trader']['rating']
-        record.order_q = float(rating if rating else 0)
-        record.order_p = float(ad['trader']['trades_count'])
-        record.lim_min = float(ad['min_amount'])
-        record.lim_max = float(ad['max_amount'])
-        record.fiat = ad['currency_code'].upper()
-        record.adv_no = ad['id']
-        available = float(ad['max_amount'])
-        record.available = round(available / dict['price'], 4) 
-        record.available_rub = available
-        return record
-    
 
     def require_info(self, ad: dict) -> tuple:
         name = ad['trader']['login']
@@ -553,7 +446,41 @@ class HodlHodlParsing(BaseParsingP2P):
         }
 
         return dict
+    
 
+    def create_record(self, ad: dict, dict: dict):
+        record = self.class_db()
+        record.id = self.index
+        record.name = dict['name']
+        record.payments = dict['payments']
+        record.buy_sell = dict['buy_sell']
+        record.token = dict['token']
+        record.price = dict['price']
+
+        rating = ad['trader']['rating']
+        record.order_q = float(rating if rating else 0)
+        record.order_p = float(ad['trader']['trades_count'])
+        record.lim_min = float(ad['min_amount'])
+        record.lim_max = float(ad['max_amount'])
+        record.fiat = ad['currency_code'].upper()
+        record.adv_no = ad['id']
+        available = float(ad['max_amount'])
+        record.available = round(available / dict['price'], 4) 
+        record.available_rub = available
+        return record
+
+
+    def switch(self, method: str) -> str:
+        match method:
+            case 'Sberbank':
+                return self.payments['sber']
+
+            case 'Tinkoff':
+                return self.payments['tinkoff']
+
+            case _:
+                return None
+            
 
     def main(self) -> int:
         for site in self.trade_types:
@@ -600,7 +527,8 @@ class HuobiParsing(BaseParsingP2P):
         payments_dicts = ad['payMethods']
         for pay in payments_dicts:
             payments.append(pay['name'])
-            
+        payments = self.update_payment_methods(payments)
+
         price = float(ad['price'])
         buy_sell = 'SELL' if ad['tradeType'] == 0 else 'BUY'
         token = self.tokens[ad['coinId']].upper()
@@ -636,6 +564,36 @@ class HuobiParsing(BaseParsingP2P):
         record.available_rub = available * dict['price']
         return record
 
+
+    def switch(self, method: str) -> str:
+        match method:
+            case 'Raiffeisenbank':
+                return self.payments['raiffeisen']
+
+            case 'QIWI':
+                return self.payments['qiwi']
+
+            case 'Yandex':
+                return self.payments['ymoney']
+            
+            case 'Tinkoff':
+                return self.payments['tinkoff']
+
+            case 'Sberbank':
+                return self.payments['sber']
+            
+            case 'SBP - Fast Bank Transfer':
+                return self.payments['sbp']
+            
+            case 'MTS-Bank':
+                return self.payments['mts']
+
+            case 'Post Bank':
+                return self.payments['post']
+
+            case _:
+                return None
+            
 
     def main(self):
         for currency in self.currencies:
@@ -720,6 +678,27 @@ class BybitParsing(BaseParsingP2P):
         record.adv_no = ad['userId']
         return record
 
+
+    def switch(self, method: str) -> str:
+        match method:
+            case '64':
+                return self.payments['raiffeisen']
+
+            case '533':
+                return self.payments['russian']
+            
+            case '574':
+                return self.payments['ymoney']
+            
+            case '581':
+                return self.payments['tinkoff']
+            
+            case '582':
+                return self.payments['sber']
+
+            case _:
+                return None
+            
 
     def main(self):
         for currency in self.currencies:
