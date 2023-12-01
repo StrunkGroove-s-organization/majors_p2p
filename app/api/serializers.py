@@ -12,6 +12,7 @@ class P2PSerializer(serializers.Serializer):
         'Post-Bank',
         'SBP',
         'Russia-Standart-Bank',
+        'bank_transfer',
     ]
 
     EXCHANGES_CHOICES = [
