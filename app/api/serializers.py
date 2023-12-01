@@ -3,16 +3,8 @@ from rest_framework import serializers
 
 class P2PSerializer(serializers.Serializer):
     PAYMENT_METHODS_CHOICES = [
-        'Tinkoff',
-        'Sber',
-        'Raiffeisenbank',
-        'MTS-Bank',
-        'QIWI',
-        'ЮMmoney',
-        'Post-Bank',
-        'SBP',
-        'Russia-Standart-Bank',
-        'bank_transfer',
+        'Tinkoff', 'Sber', 'Raiffeisenbank', 'MTS-Bank', 'QIWI', 'ЮMmoney',
+        'Post-Bank', 'SBP', 'Russia-Standart-Bank', 'Bank-Transfer',
     ]
 
     EXCHANGES_CHOICES = [
