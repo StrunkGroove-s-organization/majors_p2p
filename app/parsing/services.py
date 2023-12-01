@@ -11,7 +11,7 @@ class BaseP2P:
             'sber': 'Sber',
             'sbp': 'SBP',
             'raiffeisen': 'Raiffeisenbank',
-            'bank': 'Bank Transfer',
+            'bank': 'Bank-Transfer',
             'post': 'Post Bank',
             'russian': 'Russian Standart',
 
