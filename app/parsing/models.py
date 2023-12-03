@@ -2,14 +2,14 @@ from django.db import models
 
 
 ### Info parsing ###
-class CryptoParsing(models.Model):
-    name = models.CharField(max_length=100)
+# class CryptoParsing(models.Model):
+#     name = models.CharField(max_length=100)
 
-class BanksParsing(models.Model):
-    name = models.CharField(max_length=100)
+# class BanksParsing(models.Model):
+#     name = models.CharField(max_length=100)
 
-class BanksParsingTotalCoin(models.Model):
-    crypto = models.ForeignKey(CryptoParsing, on_delete=models.CASCADE)
+# class BanksParsingTotalCoin(models.Model):
+#     crypto = models.ForeignKey(CryptoParsing, on_delete=models.CASCADE)
 
 
 
@@ -46,40 +46,40 @@ class BaseExchange(models.Model):
 class TotalCoinModel(BaseExchange):
     exchange = models.CharField(default='TotalCoin')
     class Meta:
-        db_table = 'exchange_totalcoin'
+        db_table = 'totalcoin'
 
 
 class KucoinModel(BaseExchange):
     exchange = models.CharField(default='Kucoin')
     class Meta:
-        db_table = 'exchange_kucoin'
+        db_table = 'kucoin'
 
 
 class GarantexModel(BaseExchange):
     exchange = models.CharField(default='Garantex')
     class Meta:
-        db_table = 'exchange_garantex'
+        db_table = 'Garantex'
 
 
 class GateioModel(BaseExchange):
     exchange = models.CharField(default='Gateio')
     class Meta:
-        db_table = 'exchange_gateio'
+        db_table = 'Gate.io'
 
 
 class HodlHodlModel(BaseExchange):
     exchange = models.CharField(default='HodlHodl')
     class Meta:
-        db_table = 'exchange_hodlhodl'
+        db_table = 'Hodl Hodl'
 
 
 class HuobiModel(BaseExchange):
     exchange = models.CharField(default='Huobi')
     class Meta:
-        db_table = 'exchange_huobi'
+        db_table = 'Huobi'
 
 
 class BybitModel(BaseExchange):
     exchange = models.CharField(default='Bybit')
     class Meta:
-        db_table = 'exchange_bybit'
+        db_table = 'Bybit'

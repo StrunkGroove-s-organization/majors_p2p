@@ -17,11 +17,11 @@ admin.site.register(models.HuobiModel, BaseParsingAdmin)
 admin.site.register(models.BybitModel, BaseParsingAdmin)
 
 
-class BaseInfoAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-admin.site.register(models.BanksParsing, BaseInfoAdmin)
-admin.site.register(models.CryptoParsing, BaseInfoAdmin)
+# class BaseInfoAdmin(admin.ModelAdmin):
+#     list_display = ('name',)
+# admin.site.register(models.BanksParsing, BaseInfoAdmin)
+# admin.site.register(models.CryptoParsing, BaseInfoAdmin)
 
-class BankParsingTotalCoinAdmin(admin.ModelAdmin):
-    list_display = ('name', 'name_platform')
-admin.site.register(models.BanksParsingTotalCoin, BankParsingTotalCoinAdmin)
+# class BankParsingTotalCoinAdmin(admin.ModelAdmin):
+#     list_display = ('name', 'name_platform')
+# admin.site.register(models.BanksParsingTotalCoin, BankParsingTotalCoinAdmin)

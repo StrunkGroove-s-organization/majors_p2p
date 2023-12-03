@@ -10,8 +10,8 @@ class BaseP2P:
             'tinkoff': 'Tinkoff',
             'sber': 'Sber',
             'sbp': 'SBP',
-            'raiffeisen': 'Raiffeisenbank',
-            'bank': 'Bank-Transfer',
+            'raiffeisen': 'Raiff',
+            'bank': 'Bank Transfer',
             'post': 'Post Bank',
             'russian': 'Russian Standart',
 

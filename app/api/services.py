@@ -10,7 +10,7 @@ class BaseP2P:
 
     def get_trade_type(self):
         trade_type = self.validated_data['trade_type']
-        trade_type = trade_type.split('_')[1]
+        # trade_type = trade_type.split('_')[1]
         return trade_type
 
     def get_crypto(self):
@@ -61,21 +61,8 @@ class BaseAndFiltersP2P(BaseP2P):
         delete_indexes = []
 
         for index, ad in enumerate(data):
-            ex = {
-                'Bybit': 'exchange_bybit',
-                'Huobi': 'exchange_huobi',
-                'Garantex': 'exchange_garantex',
-                'Bitpapa': 'exchange_bitpapa',
-                'Beribit': 'exchange_beribit',
-                'Hodl Hodl': 'exchange_hodlhodl',
-                'mexc': 'exchange_mexc',
-                'Kucoin': 'exchange_kucoin',
-                'gateio': 'exchange_gateio',
-                'TotalCoin': 'exchange_totalcoin',
-            }
-
-            buy_item = ex[ad['1']['exchange']]
-            sell_item = ex[ad['2']['exchange']]
+            buy_item = ad['1']['exchange']
+            sell_item = ad['2']['exchange']
 
             if buy_item not in exchanges or sell_item not in exchanges:
                 delete_indexes.append(index)
