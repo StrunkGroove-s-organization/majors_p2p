@@ -1,6 +1,21 @@
 from django.db import models
 
 
+### Info parsing ###
+class CryptoParsing(models.Model):
+    name = models.CharField(max_length=100)
+
+class BanksParsing(models.Model):
+    name = models.CharField(max_length=100)
+
+class BanksParsingTotalCoin(models.Model):
+    crypto = models.ForeignKey(CryptoParsing, on_delete=models.CASCADE)
+
+
+
+
+
+### Ads ###
 class BaseExchange(models.Model):
     BUY_SELL_CHOICES = (
         ('BUY', 'BUY'),

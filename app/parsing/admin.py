@@ -1,8 +1,5 @@
 from django.contrib import admin
-from .models import (
-    TotalCoinModel, KucoinModel, GarantexModel, GateioModel, HodlHodlModel, 
-    HuobiModel, BybitModel
-)
+from . import models
 
 
 class BaseParsingAdmin(admin.ModelAdmin):
@@ -11,10 +8,20 @@ class BaseParsingAdmin(admin.ModelAdmin):
     list_filter = ('fiat', 'token', 'buy_sell')
     search_fields = ('name',)
 
-admin.site.register(TotalCoinModel, BaseParsingAdmin)
-admin.site.register(KucoinModel, BaseParsingAdmin)
-admin.site.register(GarantexModel, BaseParsingAdmin)
-admin.site.register(GateioModel, BaseParsingAdmin)
-admin.site.register(HodlHodlModel, BaseParsingAdmin)
-admin.site.register(HuobiModel, BaseParsingAdmin)
-admin.site.register(BybitModel, BaseParsingAdmin)
+admin.site.register(models.TotalCoinModel, BaseParsingAdmin)
+admin.site.register(models.KucoinModel, BaseParsingAdmin)
+admin.site.register(models.GarantexModel, BaseParsingAdmin)
+admin.site.register(models.GateioModel, BaseParsingAdmin)
+admin.site.register(models.HodlHodlModel, BaseParsingAdmin)
+admin.site.register(models.HuobiModel, BaseParsingAdmin)
+admin.site.register(models.BybitModel, BaseParsingAdmin)
+
+
+class BaseInfoAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+admin.site.register(models.BanksParsing, BaseInfoAdmin)
+admin.site.register(models.CryptoParsing, BaseInfoAdmin)
+
+class BankParsingTotalCoinAdmin(admin.ModelAdmin):
+    list_display = ('name', 'name_platform')
+admin.site.register(models.BanksParsingTotalCoin, BankParsingTotalCoinAdmin)
