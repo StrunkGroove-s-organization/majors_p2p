@@ -64,7 +64,7 @@ class BaseCount(BaseP2P):
             #         'Tinkoff', 'Sber',
             #     }
             # },
-            'hodl hodl': {
+            'hodl_hodl': {
                 'tokens': {
                     'BTC'
                 },
