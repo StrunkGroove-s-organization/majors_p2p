@@ -58,28 +58,28 @@ class KucoinModel(BaseExchange):
 class GarantexModel(BaseExchange):
     exchange = models.CharField(default='Garantex')
     class Meta:
-        db_table = 'Garantex'
+        db_table = 'garantex'
 
 
 class GateioModel(BaseExchange):
     exchange = models.CharField(default='Gateio')
     class Meta:
-        db_table = 'Gate.io'
+        db_table = 'gateio'
 
 
 class HodlHodlModel(BaseExchange):
     exchange = models.CharField(default='HodlHodl')
     class Meta:
-        db_table = 'Hodl Hodl'
+        db_table = 'hodl hodl'
 
 
 class HuobiModel(BaseExchange):
     exchange = models.CharField(default='Huobi')
     class Meta:
-        db_table = 'Huobi'
+        db_table = 'huobi'
 
 
 class BybitModel(BaseExchange):
     exchange = models.CharField(default='Bybit')
     class Meta:
-        db_table = 'Bybit'
+        db_table = 'bybit'
