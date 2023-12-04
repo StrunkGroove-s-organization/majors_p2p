@@ -4,3 +4,4 @@ env/
 secrets.py
 .env
 db/
+celerybeat-schedule
