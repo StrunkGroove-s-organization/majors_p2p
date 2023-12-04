@@ -64,14 +64,14 @@ class BaseCount(BaseP2P):
             #         'Tinkoff', 'Sber',
             #     }
             # },
-            # 'hodl_hodl': {
-            #     'tokens': {
-            #         'BTC'
-            #     },
-            #     'pay': {
-            #         self.payments['tinkoff'], self.payments['sber'],
-            #     }
-            # },
+            'hodlhodl': {
+                'tokens': {
+                    'BTC'
+                },
+                'pay': {
+                    self.payments['tinkoff'], self.payments['sber'],
+                }
+            },
             # 'exchange_bitpapa': {
             #     'tokens': {
             #         'USDT', 'BTC', 'ETH', 'TON', 'XMR',

@@ -70,7 +70,7 @@ class GateioModel(BaseExchange):
 class HodlHodlModel(BaseExchange):
     exchange = models.CharField(default='HodlHodl')
     class Meta:
-        db_table = 'hodl_hodl'
+        db_table = 'hodlhodl'
 
 
 class HuobiModel(BaseExchange):
