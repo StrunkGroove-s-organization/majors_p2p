@@ -84,14 +84,14 @@ class BaseCount(BaseP2P):
             #         'Raiffeisenbank',
             #     }
             # },
-            # 'gateio': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH'
-            #     },
-            #     'pay': {
-            #         self.payments['raiffeisen'], self.payments['qiwi'],
-            #     }
-            # },
+            'gateio': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH'
+                },
+                'pay': {
+                    self.payments['raiffeisen'], self.payments['qiwi'],
+                }
+            },
             # 'exchange_beribit': {
             #     'tokens': {
             #         'USDT'
