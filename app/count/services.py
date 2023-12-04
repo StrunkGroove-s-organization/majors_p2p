@@ -47,14 +47,14 @@ class BaseCount(BaseP2P):
                     self.payments['raiffeisen'],
                 }
             },
-            # 'Garantex': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH', 'USDC', 'DAI'
-            #     },
-            #     'pay': {
-            #         self.payments['tinkoff'], self.payments['sber'],
-            #     }
-            # },
+            'garantex': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH', 'USDC', 'DAI'
+                },
+                'pay': {
+                    self.payments['tinkoff'], self.payments['sber'],
+                }
+            },
             
             # 'exchange_mexc': {
             #     'tokens': {
@@ -64,14 +64,14 @@ class BaseCount(BaseP2P):
             #         'Tinkoff', 'Sber',
             #     }
             # },
-            # 'Hodl Hodl': {
-            #     'tokens': {
-            #         'BTC'
-            #     },
-            #     'pay': {
-            #         self.payments['tinkoff'], self.payments['sber'],
-            #     }
-            # },
+            'hodl hodl': {
+                'tokens': {
+                    'BTC'
+                },
+                'pay': {
+                    self.payments['tinkoff'], self.payments['sber'],
+                }
+            },
             # 'exchange_bitpapa': {
             #     'tokens': {
             #         'USDT', 'BTC', 'ETH', 'TON', 'XMR',
@@ -84,14 +84,14 @@ class BaseCount(BaseP2P):
             #         'Raiffeisenbank',
             #     }
             # },
-            # 'Gate.io': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH'
-            #     },
-            #     'pay': {
-            #         self.payments['raiffeisen'], self.payments['qiwi'],
-            #     }
-            # },
+            'gateio': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH'
+                },
+                'pay': {
+                    self.payments['raiffeisen'], self.payments['qiwi'],
+                }
+            },
             # 'exchange_beribit': {
             #     'tokens': {
             #         'USDT'
@@ -100,27 +100,27 @@ class BaseCount(BaseP2P):
             #         'Tinkoff', 'Sber',
             #     }
             # }, 
-            # 'Bybit': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH', 'USDC'
-            #     },
-            #     'pay': {
-            #         self.payments['raiffeisen'], self.payments['tinkoff'],
-            #         self.payments['sber'],
-            #     }
-            # },
-            # 'Huobi': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH', 'USDD', 'HT', 'TRX', 'EOS', 'XRP', 
-            #         'LTC'
-            #     },
-            #     'pay': {
-            #         self.payments['raiffeisen'], self.payments['post'],
-            #         self.payments['tinkoff'], self.payments['sber'],
-            #         self.payments['sbp'], self.payments['russian'],
-            #         self.payments['post'],
-            #     }
-            # },
+            'bybit': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH', 'USDC'
+                },
+                'pay': {
+                    self.payments['raiffeisen'], self.payments['tinkoff'],
+                    self.payments['sber'],
+                }
+            },
+            'huobi': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH', 'USDD', 'HT', 'TRX', 'EOS', 'XRP', 
+                    'LTC'
+                },
+                'pay': {
+                    self.payments['raiffeisen'], self.payments['post'],
+                    self.payments['tinkoff'], self.payments['sber'],
+                    self.payments['sbp'], self.payments['russian'],
+                    self.payments['post'],
+                }
+            },
         }
 
 
