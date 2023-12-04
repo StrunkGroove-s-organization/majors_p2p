@@ -64,14 +64,14 @@ class BaseCount(BaseP2P):
             #         'Tinkoff', 'Sber',
             #     }
             # },
-            'hodl_hodl': {
-                'tokens': {
-                    'BTC'
-                },
-                'pay': {
-                    self.payments['tinkoff'], self.payments['sber'],
-                }
-            },
+            # 'hodl_hodl': {
+            #     'tokens': {
+            #         'BTC'
+            #     },
+            #     'pay': {
+            #         self.payments['tinkoff'], self.payments['sber'],
+            #     }
+            # },
             # 'exchange_bitpapa': {
             #     'tokens': {
             #         'USDT', 'BTC', 'ETH', 'TON', 'XMR',
@@ -84,14 +84,14 @@ class BaseCount(BaseP2P):
             #         'Raiffeisenbank',
             #     }
             # },
-            'gateio': {
-                'tokens': {
-                    'USDT', 'BTC', 'ETH'
-                },
-                'pay': {
-                    self.payments['raiffeisen'], self.payments['qiwi'],
-                }
-            },
+            # 'gateio': {
+            #     'tokens': {
+            #         'USDT', 'BTC', 'ETH'
+            #     },
+            #     'pay': {
+            #         self.payments['raiffeisen'], self.payments['qiwi'],
+            #     }
+            # },
             # 'exchange_beribit': {
             #     'tokens': {
             #         'USDT'
