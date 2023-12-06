@@ -197,9 +197,7 @@ class TriangularP2PServices(BaseAndFiltersP2P):
 
         key = self.create_key(trade_type, crypto, self.number)
         values = cache.get(key)
-        if values:
-            sorted(values, key=lambda item: item['spread'], reverse=True)
-        else:
+        if not values:
             return 'Values doesnt exists'
 
         self.filter_required(values)
@@ -212,6 +210,9 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         self.filter_first_available(values)
         self.filter_second_available(values)
         self.filter_only_stable_coin(values)
+
+        sorted(values, key=lambda item: item['spread'], reverse=True)
+
         return values
 
 
