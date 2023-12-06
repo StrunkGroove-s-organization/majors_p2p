@@ -137,10 +137,28 @@ class TotalcoinParsing(BaseParsingP2P):
                 return self.payments['raiffeisen']
             case 'СБП':
                 return self.payments['sbp']
-            
             case _:
                 return None
 
+
+    def require_info(self, ad: dict) -> tuple:
+        name = ad['user']['nickname']
+        pay = ad['paymentMethod']['name']
+        payments = self.update_payment_methods([pay])
+        price = float(ad['price'])
+        buy_sell = 'BUY' if ad['type'] == 'SELL' else 'SELL'
+        token = ad['cryptocurrency'].upper()
+
+        dict = {
+            'name': name,
+            'payments': payments,
+            'price': price,
+            'token': token,
+            'buy_sell': buy_sell,
+        }
+
+        return dict
+    
 
     def create_record(self, ad: dict, dict: dict) -> tuple:
         record = self.class_db()
@@ -162,25 +180,6 @@ class TotalcoinParsing(BaseParsingP2P):
         record.available_rub = available * dict['price']
         record.adv_no = ad['id']
         return record
-    
-
-    def require_info(self, ad: dict) -> tuple:
-        name = ad['user']['nickname']
-        pay = ad['paymentMethod']['name']
-        payments = self.update_payment_methods([pay])
-        price = float(ad['price'])
-        buy_sell = 'BUY' if ad['type'] == 'SELL' else 'SELL'
-        token = ad['cryptocurrency'].upper()
-
-        dict = {
-            'name': name,
-            'payments': payments,
-            'price': price,
-            'token': token,
-            'buy_sell': buy_sell,
-        }
-
-        return dict
     
 
     def main(self) -> int:
@@ -205,7 +204,6 @@ class KucoinParsing(BaseParsingP2P):
                 return self.payments['bank']
             case 'SBP':
                 return self.payments['sbp']
-            
             case _:
                 return None
 
@@ -219,8 +217,8 @@ class KucoinParsing(BaseParsingP2P):
         record.token = dict['token']
         record.price = dict['price']
 
-        record.order_q = float(ad.get('completedOrderQuantity', 0))
-        record.order_p = float(ad.get('completedRate', 0)) * 100
+        record.order_q = float(ad.get('dealOrderNum', 0))
+        record.order_p = float(ad.get('dealOrderRate', 0).replace('%', ''))
         record.lim_min = float(ad['limitMinQuote'])
         record.lim_max = float(ad['limitMaxQuote'])
         record.fiat = ad['legal'].upper()
@@ -341,21 +339,29 @@ class GateioParsing(BaseParsingP2P):
     def fetch(self, constructed_data: dict) -> dict:
         response = requests.post(url=self.url,
                                  data=constructed_data, headers=self.headers)
-
+        
         if response.status_code != 200:
             return None
         return response.json()
-    
 
-    def switch(self, method: str) -> str:
-        match method:
-            case '22':
-                return self.payments['qiwi']
-            case '186':
-                return self.payments['raiffeisen']
-            
-            case _:
-                return None
+
+    def require_info(self, ad: dict) -> tuple:
+        name = ad['username']
+        payments = ad['pay_type_num'].split(',')
+        payments = self.update_payment_methods(payments)
+        price = float(ad['rate'])
+        buy_sell = 'BUY' if ad['type'] == 'sell' else 'SELL'
+        token = ad['curr_a'].upper()
+        
+        dict = {
+            'name': name,
+            'payments': payments,
+            'price': price,
+            'token': token,
+            'buy_sell': buy_sell,
+        }
+        
+        return dict
 
 
     def create_record(self, ad: dict, dict: dict):
@@ -379,24 +385,15 @@ class GateioParsing(BaseParsingP2P):
         return record
     
 
-    def require_info(self, ad: dict) -> tuple:
-        name = ad['username']
-        payments = ad['pay_type_num'].split(',')
-        payments = self.update_payment_methods(payments)
-        price = float(ad['rate'])
-        buy_sell = 'BUY' if ad['type'] == 'sell' else 'SELL'
-        token = ad['curr_a'].upper()
-        
-        dict = {
-            'name': name,
-            'payments': payments,
-            'price': price,
-            'token': token,
-            'buy_sell': buy_sell,
-        }
-
-        return dict
-    
+    def switch(self, method: str) -> str:
+        match method:
+            case '22':
+                return self.payments['qiwi']
+            case '186':
+                return self.payments['raiffeisen']
+            case _:
+                return None
+            
 
     def main(self) -> int:
         ads_list = []
@@ -480,10 +477,8 @@ class HodlHodlParsing(BaseParsingP2P):
         match method:
             case 'Sberbank':
                 return self.payments['sber']
-
             case 'Tinkoff':
                 return self.payments['tinkoff']
-
             case _:
                 return None
             
@@ -575,28 +570,20 @@ class HuobiParsing(BaseParsingP2P):
         match method:
             case 'Raiffeisenbank':
                 return self.payments['raiffeisen']
-
             case 'QIWI':
                 return self.payments['qiwi']
-
             case 'Yandex':
                 return self.payments['ymoney']
-            
             case 'Tinkoff':
                 return self.payments['tinkoff']
-
             case 'Sberbank':
                 return self.payments['sber']
-            
             case 'SBP - Fast Bank Transfer':
                 return self.payments['sbp']
-            
             case 'MTS-Bank':
                 return self.payments['mts']
-
             case 'Post Bank':
                 return self.payments['post']
-
             case _:
                 return None
             
@@ -689,19 +676,14 @@ class BybitParsing(BaseParsingP2P):
         match method:
             case '64':
                 return self.payments['raiffeisen']
-
             case '533':
                 return self.payments['russian']
-            
             case '574':
                 return self.payments['ymoney']
-            
             case '581':
                 return self.payments['tinkoff']
-            
             case '582':
                 return self.payments['sber']
-
             case _:
                 return None
             

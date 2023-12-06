@@ -27,14 +27,14 @@ class BaseAndFiltersP2P(BaseP2P):
     def filter_only_stable_coin(self, data):
         only_stable_coin = self.validated_data.get('only_stable_coin')
 
-        if not only_stable_coin: return 
+        if only_stable_coin is False: return 
 
         delete_indexes = []
 
         for index, ad in enumerate(data):
             token = ad['2']['token']
 
-            if token != 'USDT':
+            if token not in ['USDT', 'USDC']:
                 delete_indexes.append(index)
         
         self.delete_ads(data, delete_indexes)

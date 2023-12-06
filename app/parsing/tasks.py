@@ -78,6 +78,7 @@ def gateio():
         'url': 'https://www.gate.io/json_svr/query_push/?u=21&c=388882',
         'headers': {
             'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0',
+            'Cookie': 'cf_clearance=WVgJZwsvRLJtvCSBMPzARZC8.lLilHcbjP1iMW8JNpY-1701898388-0-1-47b97e73.bf996eac.10b82193-160.0.0',
             'Accept': '*/*',
             'Accept-Language': 'en-US,en;q=0.5',
             'Accept-Encoding': 'gzip, deflate',
