@@ -211,7 +211,7 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         self.filter_second_available(values)
         self.filter_only_stable_coin(values)
 
-        sorted(values, key=lambda item: item['spread'], reverse=True)
+        values.sort(key=lambda item: item['spread'], reverse=True)
 
         return values
 
