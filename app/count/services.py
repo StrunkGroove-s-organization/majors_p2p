@@ -152,7 +152,7 @@ class BaseCount(BaseP2P):
                 SELECT
                     name, order_q, order_p, price, lim_min, lim_max, fiat,
                     token, buy_sell, exchange, adv_no,  '{pay}' as best_payment,
-                    available
+                    available_rub
                 FROM public.{AsIs(ex)}
                 WHERE price = (
                     SELECT {'MIN' if sort_direction == 'ASC' else 'MAX'}(price)
@@ -215,7 +215,7 @@ class BaseCount(BaseP2P):
                 "exchange": row[9],
                 "adv_no": row[10],
                 "best_payment": row[11],
-                "available": row[12],
+                "available_rub": row[12],
             }
             for row in result
         ]

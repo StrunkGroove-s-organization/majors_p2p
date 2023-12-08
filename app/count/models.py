@@ -19,6 +19,7 @@ class AdsAbstract(models.Model):
     lim_max = models.FloatField(default=0.0)
     adv_no = models.CharField(max_length=50)
     available = models.FloatField(max_length=30, default=0.0)
+    available_rub = models.FloatField(max_length=30, default=0.0)
     exchange = models.CharField(max_length=50)
     best_payment = models.CharField(max_length=20, blank=True, null=True)
 

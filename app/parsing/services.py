@@ -375,8 +375,8 @@ class GateioParsing(BaseParsingP2P):
 
         record.order_q = float(ad['complete_number'])
         record.order_p = float(ad['complete_rate_month'])
-        record.lim_min = float(ad['limit_total'].split('~')[0])
-        record.lim_max = float(ad['limit_total'].split('~')[1])
+        record.lim_min = float(ad['limit_total'].split('~')[0]) * dict['price']
+        record.lim_max = float(ad['limit_total'].split('~')[1]) * dict['price']
         record.fiat = ad['curr_b'].upper()
         record.adv_no = ad['uid']
         available = float(ad['total'].replace(',', ''))
@@ -461,8 +461,8 @@ class HodlHodlParsing(BaseParsingP2P):
         record.price = dict['price']
 
         rating = ad['trader']['rating']
-        record.order_q = float(rating if rating else 0)
-        record.order_p = float(ad['trader']['trades_count'])
+        record.order_p = float(rating if rating else 0) * 100
+        record.order_q = float(ad['trader']['trades_count'])
         record.lim_min = float(ad['min_amount'])
         record.lim_max = float(ad['max_amount'])
         record.fiat = ad['currency_code'].upper()

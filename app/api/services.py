@@ -10,7 +10,6 @@ class BaseP2P:
 
     def get_trade_type(self):
         trade_type = self.validated_data['trade_type']
-        # trade_type = trade_type.split('_')[1]
         return trade_type
 
     def get_crypto(self):
@@ -34,7 +33,7 @@ class BaseAndFiltersP2P(BaseP2P):
         for index, ad in enumerate(data):
             token = ad['2']['token']
 
-            if token not in ['USDT', 'USDC']:
+            if token == 'USDT':
                 delete_indexes.append(index)
         
         self.delete_ads(data, delete_indexes)
@@ -113,7 +112,7 @@ class BaseAndFiltersP2P(BaseP2P):
             first_lim_min = ad['2']['lim_min']
             first_lim_max = ad['2']['lim_max']
 
-            if first_lim_min > lim or lim > first_lim_max:
+            if first_lim_min >= lim or lim >= first_lim_max:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -161,9 +160,9 @@ class BaseAndFiltersP2P(BaseP2P):
         delete_indexes = []
 
         for index, ad in enumerate(data):
-            first_available = ad['1']['available']
+            first_available = ad['1']['available_rub']
 
-            if available <= first_available:
+            if available >= first_available:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -177,9 +176,9 @@ class BaseAndFiltersP2P(BaseP2P):
         delete_indexes = []
 
         for index, ad in enumerate(data):
-            second_available = ad['2']['available']
+            second_available = ad['2']['available_rub']
 
-            if available <= second_available:
+            if available >= second_available:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -189,7 +188,6 @@ class TriangularP2PServices(BaseAndFiltersP2P):
     def __init__(self, validated_data):
         super().__init__(validated_data)
         self.number = 3
-
 
     def get_ads(self):
         trade_type = self.get_trade_type()
@@ -228,10 +226,7 @@ class BinaryP2PServices(BaseAndFiltersP2P):
 
         key = self.create_key(trade_type, crypto, self.number)
         values = cache.get(key)
-
-        if values:
-            values.sort(key=lambda item: item['spread'], reverse=True)
-        else:
+        if not values:
             return 'Values doesnt exists'
 
         self.filter_required(values)
@@ -243,4 +238,7 @@ class BinaryP2PServices(BaseAndFiltersP2P):
         self.filter_ord_p(values)
         self.filter_first_available(values)
         self.filter_second_available(values)
+
+        values.sort(key=lambda item: item['spread'], reverse=True)
+
         return values
