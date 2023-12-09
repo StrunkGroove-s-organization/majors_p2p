@@ -33,7 +33,7 @@ class BaseAndFiltersP2P(BaseP2P):
         for index, ad in enumerate(data):
             token = ad['2']['token']
 
-            if token == 'USDT':
+            if token != 'USDT':
                 delete_indexes.append(index)
         
         self.delete_ads(data, delete_indexes)
