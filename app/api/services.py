@@ -78,7 +78,7 @@ class BaseAndFiltersP2P(BaseP2P):
             for index, ad in enumerate(data):
                 spread = ad['spread']
 
-                if spread >= user_spread:
+                if spread > user_spread:
                     delete_indexes.append(index)
         
             self.delete_ads(data, delete_indexes)
@@ -95,7 +95,7 @@ class BaseAndFiltersP2P(BaseP2P):
             first_lim_min = ad['1']['lim_min']
             first_lim_max = ad['1']['lim_max']
 
-            if first_lim_min >= lim or lim >= first_lim_max:
+            if first_lim_min > lim or lim > first_lim_max:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -112,7 +112,7 @@ class BaseAndFiltersP2P(BaseP2P):
             first_lim_min = ad['2']['lim_min']
             first_lim_max = ad['2']['lim_max']
 
-            if first_lim_min >= lim or lim >= first_lim_max:
+            if first_lim_min > lim or lim > first_lim_max:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -129,7 +129,7 @@ class BaseAndFiltersP2P(BaseP2P):
             first_order_q = ad['1']['order_q']
             second_order_q = ad['2']['order_q']
 
-            if ord_q >= first_order_q or ord_q >= second_order_q:
+            if ord_q > first_order_q or ord_q > second_order_q:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -146,7 +146,7 @@ class BaseAndFiltersP2P(BaseP2P):
             first_order_p = ad['1']['order_p']
             second_order_p = ad['2']['order_p']
 
-            if ord_p >= first_order_p or ord_p >= second_order_p:
+            if ord_p > first_order_p or ord_p > second_order_p:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -162,7 +162,7 @@ class BaseAndFiltersP2P(BaseP2P):
         for index, ad in enumerate(data):
             first_available = ad['1']['available_rub']
 
-            if available >= first_available:
+            if available > first_available:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
@@ -178,7 +178,7 @@ class BaseAndFiltersP2P(BaseP2P):
         for index, ad in enumerate(data):
             second_available = ad['2']['available_rub']
 
-            if available >= second_available:
+            if available > second_available:
                 delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
