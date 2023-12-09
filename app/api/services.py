@@ -26,7 +26,7 @@ class BaseAndFiltersP2P(BaseP2P):
     def filter_only_stable_coin(self, data):
         only_stable_coin = self.validated_data.get('only_stable_coin')
 
-        if only_stable_coin is False: return 
+        if only_stable_coin is not True: return 
 
         delete_indexes = []
 
@@ -207,7 +207,7 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         self.filter_ord_p(values)
         self.filter_first_available(values)
         self.filter_second_available(values)
-        self.filter_only_stable_coin(values)
+        # self.filter_only_stable_coin(values)
 
         values.sort(key=lambda item: item['spread'], reverse=True)
 
