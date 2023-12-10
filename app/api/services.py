@@ -84,7 +84,7 @@ class BaseAndFiltersP2P(BaseP2P):
             self.delete_ads(data, delete_indexes)
 
 
-    def first_filter_lim(self, data):
+    def filter_first_lim(self, data):
         lim = self.validated_data.get('lim_first')
     
         if not lim: return 
@@ -101,7 +101,7 @@ class BaseAndFiltersP2P(BaseP2P):
         self.delete_ads(data, delete_indexes)
 
 
-    def second_filter_lim(self, data):
+    def filter_second_lim(self, data):
         lim = self.validated_data.get('lim_second')
     
         if not lim: return
@@ -201,13 +201,13 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         self.filter_required(values)
         self.filter_required_ex(values)
         self.filter_spread(values)
-        self.first_filter_lim(values)
-        self.second_filter_lim(values)
+        self.filter_first_lim(values)
+        self.filter_second_lim(values)
         self.filter_ord_q(values)
         self.filter_ord_p(values)
         self.filter_first_available(values)
         self.filter_second_available(values)
-        # self.filter_only_stable_coin(values)
+        self.filter_only_stable_coin(values)
 
         values.sort(key=lambda item: item['spread'], reverse=True)
 
@@ -232,8 +232,8 @@ class BinaryP2PServices(BaseAndFiltersP2P):
         self.filter_required(values)
         self.filter_required_ex(values)
         self.filter_spread(values)
-        self.first_filter_lim(values)
-        self.second_filter_lim(values)
+        self.filter_first_lim(values)
+        self.filter_second_lim(values)
         self.filter_ord_q(values)
         self.filter_ord_p(values)
         self.filter_first_available(values)

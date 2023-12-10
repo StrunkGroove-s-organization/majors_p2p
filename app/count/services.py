@@ -363,11 +363,9 @@ class CountActionsInThree(BaseCount):
 
         for buy_token, buy_ads_by_token in buy_ads.items():
             for buy_ad in buy_ads_by_token:
-                buy_price = buy_ad['price']
             
                 for sell_token, sell_ads_by_token in sell_ads.items():
                     for sell_ad in sell_ads_by_token:
-                        sell_price = sell_ad['price']
                         
                         if buy_token == 'USDT' and sell_token != 'USDT':
                             token = sell_token
@@ -375,25 +373,29 @@ class CountActionsInThree(BaseCount):
                             token = buy_token
                         else:
                             continue
-
+                        
                         key = self.get_key(token)
                         spot_price = self.get_price_by_symbol(spot, key)
 
                         if spot_price == None:  continue
 
-                        spread = self.count_spread(buy_price, 
-                                                    sell_price, spot_price)
+                        spread = self.count_spread(buy_ad['price'], 
+                                                    sell_ad['price'], 
+                                                    spot_price)
 
                         if spread < self.min_spread: continue
-                    
+
                         if token not in links:
                             links[token] = []
 
-                        links[token].append({'spread': spread,
-                                            'spot': spot_price,
-                                            '1': buy_ad,
-                                            '2': sell_ad})
-                            
+                        record = {'spread': spread,
+                                    'spot': spot_price,
+                                    '1': buy_ad,
+                                    '2': sell_ad}
+                        
+                        links[token].append(record)
+        
+        print(links.keys())
         return links
 
 
