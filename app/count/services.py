@@ -159,7 +159,7 @@ class BaseCount(BaseP2P):
                     SELECT value::text FROM jsonb_array_elements_text(payments)
                 )
                 ORDER BY price {sort_direction}
-                LIMIT 3
+                LIMIT 2
             )
         """
         return query
