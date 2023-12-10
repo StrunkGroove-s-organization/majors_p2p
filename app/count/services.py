@@ -338,10 +338,10 @@ class CountActionsInThree(BaseCount):
 
 
     def get_price_by_symbol(self, crypto: dict, target_crypto: str) -> float:
-        for crypto_obj in crypto:
-            if crypto_obj == target_crypto:
-                return float(crypto[target_crypto])
-        return None
+        price = crypto.get(target_crypto, None)
+        if price: 
+            return float(price)
+        return price
 
 
     def count_spread(self, buy_price: float, sell_price: float, 
@@ -349,7 +349,7 @@ class CountActionsInThree(BaseCount):
         if reverse == False:
             spread = ((sell_price / (buy_price * spot_price)) - 1) * 100
         elif reverse == True:
-            spot_price = spot_price / 1
+            spot_price = 1 / spot_price
             spread = ((sell_price / (buy_price * spot_price)) - 1) * 100
         spread = round(spread, 2)
         return spread
@@ -383,7 +383,9 @@ class CountActionsInThree(BaseCount):
                                             spot_price,
                                             reverse=reverse)
                 
-                print(f'{buy_token}--{sell_token}--{spread}')
+                if buy_token == "USDT":
+                    print(f'{buy_token}--{sell_token}--{spread}')
+                    
                 if spread < self.min_spread: continue
 
                 if token not in links:
@@ -443,9 +445,9 @@ class CountActionsInThree(BaseCount):
         spot = self.binance_spot()
 
         data = {
-            self.trade_types['b-b']: self.count(dict['buy'], dict['buy'], spot),
-            self.trade_types['b-s']: self.count(dict['buy'], dict['sell'], spot),
-            self.trade_types['s-b']: self.count(dict['sell'], dict['buy'], spot),
+            # self.trade_types['b-b']: self.count(dict['buy'], dict['buy'], spot),
+            # self.trade_types['b-s']: self.count(dict['buy'], dict['sell'], spot),
+            # self.trade_types['s-b']: self.count(dict['sell'], dict['buy'], spot),
             self.trade_types['s-s']: self.count(dict['sell'], dict['sell'], spot)
         }
 
