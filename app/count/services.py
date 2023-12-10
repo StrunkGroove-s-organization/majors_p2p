@@ -153,16 +153,13 @@ class BaseCount(BaseP2P):
                     token, buy_sell, exchange, adv_no,  '{pay}' as best_payment,
                     available_rub
                 FROM public.{AsIs(ex)}
-                WHERE price = (
-                    SELECT {'MIN' if sort_direction == 'ASC' else 'MAX'}(price)
-                    FROM public.{AsIs(ex)}
-                    WHERE token = %s
-                    AND buy_sell = %s
-                    AND '{pay}' IN (
-                        SELECT value::text FROM jsonb_array_elements_text(payments)
-                    )
+                WHERE token = %s
+                AND buy_sell = %s
+                AND '{pay}' IN (
+                    SELECT value::text FROM jsonb_array_elements_text(payments)
                 )
-                LIMIT 5
+                ORDER BY price {sort_direction}
+                LIMIT 3
             )
         """
         return query
@@ -220,7 +217,7 @@ class BaseCount(BaseP2P):
     def get_ads(self) -> dict:
         query, params = self.create_exchange_query()
         result = self.execute_exchange_query(query, params)
-
+        print(f'Result -- {len(result)}')
         ads = self.create_response(result)
         buy_list, sell_list = self.split_and_sort_ads(ads)
         data = {'buy': buy_list,
