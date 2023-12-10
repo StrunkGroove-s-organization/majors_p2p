@@ -123,7 +123,7 @@ class BaseCount(BaseP2P):
         }
 
 
-    def exchange_query(self, ex: str, site: str, pay: str, offset=1) -> str:
+    def exchange_query(self, ex: str, site: str, pay: str, offset=0) -> str:
         sort_direction = "ASC" if site == "BUY" else "DESC"
         query = f"""
             (
