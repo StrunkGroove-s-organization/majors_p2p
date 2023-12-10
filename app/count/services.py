@@ -344,10 +344,13 @@ class CountActionsInThree(BaseCount):
         return None
 
 
-    def count_spread(self, buy_price: float, 
-                     sell_price: float, spot_price: float) -> float:
-        
-        spread = ((sell_price / (buy_price * spot_price)) - 1) * 100
+    def count_spread(self, buy_price: float, sell_price: float, 
+                     spot_price: float, reverse=False) -> float:
+        if reverse == False:
+            spread = ((sell_price / (buy_price * spot_price)) - 1) * 100
+        elif reverse == True:
+            spot_price = spot_price / 1
+            spread = ((sell_price / (buy_price * spot_price)) - 1) * 100
         spread = round(spread, 2)
         return spread
 
@@ -362,8 +365,10 @@ class CountActionsInThree(BaseCount):
                 sell_token = sell_ad['token']
 
                 if buy_token == 'USDT' and sell_token != 'USDT':
+                    reverse = False
                     token = sell_token
                 elif buy_token != 'USDT' and sell_token == 'USDT':
+                    reverse = True
                     token = buy_token
                 else:
                     continue
@@ -375,8 +380,10 @@ class CountActionsInThree(BaseCount):
 
                 spread = self.count_spread(buy_ad['price'], 
                                             sell_ad['price'], 
-                                            spot_price)
-
+                                            spot_price,
+                                            reverse=reverse)
+                
+                print(f'{buy_token}--{sell_token}--{spread}')
                 if spread < self.min_spread: continue
 
                 if token not in links:
