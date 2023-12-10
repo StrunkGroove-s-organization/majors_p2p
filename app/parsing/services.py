@@ -202,6 +202,8 @@ class KucoinParsing(BaseParsingP2P):
         match method:
             case 'BANK_TRANSFER':
                 return self.payments['bank']
+            case 'BANK':
+                return self.payments['bank']
             case 'SBP':
                 return self.payments['sbp']
             case _:
@@ -305,7 +307,7 @@ class GarantexParsing(BaseParsingP2P):
         record.order_q = 100
         record.order_p = 100
         record.payments = ['Tinkoff', 'Sber']
-        record.buy_sell = 'BUY' if site == 'bid' else 'SELL'
+        record.buy_sell = 'SELL' if site == 'bid' else 'BUY'
         record.price = float(entry['price'])
         record.lim_min = 500
         record.lim_max = float(entry['amount'])

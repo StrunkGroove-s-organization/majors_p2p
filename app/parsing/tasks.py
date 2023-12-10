@@ -48,7 +48,7 @@ def kucoin():
         'class_db': KucoinModel,
         'currencies':  ['USDT', 'BTC', 'ETH', 'USDC'],
         'trade_types': ['SELL', 'BUY'],
-        'pay_types': ['BANK_TRANSFER', 'SBP'],
+        'pay_types': ['BANK_TRANSFER', 'SBP', 'BANK'],
         'exchange': 'Kucoin',
         'timeout': 0.5,
     }
