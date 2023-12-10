@@ -206,7 +206,7 @@ class BaseAndFiltersP2P(BaseP2P):
         for index, ad in enumerate(data):
             unique_record = self.create_unique_record(ad)
 
-            if unique_record not in unique_links:
+            if unique_record not in unique_links.keys():
                 unique_links[unique_record] = {
                     'index': index,
                     'spread': ad['spread']
@@ -216,6 +216,7 @@ class BaseAndFiltersP2P(BaseP2P):
                     delete_indexes.append(index)
                 else:
                     delete_indexes.append(unique_links[unique_record]['index'])
+                    del unique_links[unique_record]
 
         self.delete_ads(data, delete_indexes)
 
