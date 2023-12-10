@@ -184,7 +184,7 @@ class BaseAndFiltersP2P(BaseP2P):
         self.delete_ads(data, delete_indexes)
 
 
-    def create_unique_record(ad: dict):
+    def create_unique_record(self, ad: dict):
         buy_exchange = ad['1']['exchange']
         buy_pay = ad['1']['best_payment']
         buy_token = ad['1']['token']
@@ -244,7 +244,7 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         self.filter_second_available(values)
         self.filter_only_stable_coin(values)
         self.filter_best_links(values)
-        
+
         values.sort(key=lambda item: item['spread'], reverse=True)
 
         return values
