@@ -362,50 +362,38 @@ class CountActionsInThree(BaseCount):
         links = {}
 
         for buy_token, buy_ads_by_token in buy_ads.items():
-            sub_links = []
-
             for buy_ad in buy_ads_by_token:
                 buy_price = buy_ad['price']
             
                 for sell_token, sell_ads_by_token in sell_ads.items():
                     for sell_ad in sell_ads_by_token:
                         sell_price = sell_ad['price']
-
+                        
                         if buy_token == 'USDT' and sell_token != 'USDT':
-                            key = self.get_key(sell_token)
-                            spot_price = self.get_price_by_symbol(spot, key)
-
-                            if spot_price == None:  continue
-
-                            spread = self.count_spread(buy_price, sell_price, spot_price)
-
-                            if spread < self.min_spread: continue
-
-                            sub_links.append({
-                                'spread': spread,
-                                'spot': spot_price,
-                                '1': buy_ad,
-                                '2': sell_ad,
-                            })
-
+                            token = sell_token
                         elif buy_token != 'USDT' and sell_token == 'USDT':
-                            key = self.get_key(buy_token)
-                            spot_price = self.get_price_by_symbol(spot, key)
+                            token = buy_token
+                        else:
+                            continue
 
-                            if spot_price == None:  continue
+                        key = self.get_key(token)
+                        spot_price = self.get_price_by_symbol(spot, key)
 
-                            spot_price = 1 / spot_price
-                            spread = self.count_spread(buy_price, sell_price, spot_price)
+                        if spot_price == None:  continue
 
-                            if spread < self.min_spread: continue
+                        spread = self.count_spread(buy_price, 
+                                                    sell_price, spot_price)
 
-                            sub_links.append({
-                                'spread': spread,
-                                'spot': spot_price,
-                                '1': buy_ad,
-                                '2': sell_ad,
-                            })
-            links[buy_token] = sub_links
+                        if spread < self.min_spread: continue
+                    
+                        if token not in links:
+                            links[token] = []
+
+                        links[token].append({'spread': spread,
+                                            'spot': spot_price,
+                                            '1': buy_ad,
+                                            '2': sell_ad})
+                            
         return links
 
 
