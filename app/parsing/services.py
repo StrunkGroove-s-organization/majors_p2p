@@ -210,27 +210,6 @@ class KucoinParsing(BaseParsingP2P):
                 return None
 
 
-    def create_record(self, ad: dict, dict: dict):
-        record = self.class_db()
-        record.id = self.index
-        record.name = dict['name']
-        record.payments = dict['payments']
-        record.buy_sell = dict['buy_sell']
-        record.token = dict['token']
-        record.price = dict['price']
-
-        record.order_q = float(ad.get('dealOrderNum', 0))
-        record.order_p = float(ad.get('dealOrderRate', 0).replace('%', ''))
-        record.lim_min = float(ad['limitMinQuote'])
-        record.lim_max = float(ad['limitMaxQuote'])
-        record.fiat = ad['legal'].upper()
-        record.adv_no = ad['id']
-        available = float(ad['currencyBalanceQuantity'])
-        record.available = round(available, 4)
-        record.available_rub = available * dict['price']
-        return record
-    
-
     def require_info(self, ad: dict) -> tuple:
         name = ad['nickName']
         payments = []
@@ -238,7 +217,9 @@ class KucoinParsing(BaseParsingP2P):
             pay = pay['payTypeCode']
             payments.append(pay)
         payments = self.update_payment_methods(payments)
-        price = float(ad['floatPrice'])
+        price = ad.get('floatPrice')
+        if price:
+            price = float(price)
         buy_sell = 'BUY' if ad['side'] == 'SELL' else 'SELL'
         token = ad['currency'].upper()
         
@@ -251,6 +232,26 @@ class KucoinParsing(BaseParsingP2P):
         }
 
         return dict
+    
+
+    def create_record(self, ad: dict, dict: dict):
+        record = self.class_db()
+        record.id = self.index
+        record.name = dict['name']
+        record.payments = dict['payments']
+        record.buy_sell = dict['buy_sell']
+        record.token = dict['token']
+        record.price = dict['price']
+        record.order_q = float(ad.get('dealOrderNum', 0)) if ad.get('dealOrderNum', 0) else 0
+        record.order_p = float(ad.get('dealOrderNum').replace('%', '')) if ad.get('dealOrderNum') else 0
+        record.lim_min = float(ad['limitMinQuote'])
+        record.lim_max = float(ad['limitMaxQuote'])
+        record.fiat = ad['legal'].upper()
+        record.adv_no = ad['id']
+        available = float(ad['currencyBalanceQuantity'])
+        record.available = round(available, 4)
+        record.available_rub = available * dict['price']
+        return record
     
 
     def main(self) -> int:

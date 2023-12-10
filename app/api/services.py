@@ -242,3 +242,7 @@ class BinaryP2PServices(BaseAndFiltersP2P):
         values.sort(key=lambda item: item['spread'], reverse=True)
 
         return values
+    
+
+class BestPricesP2PServices:
+    pass

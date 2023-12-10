@@ -22,6 +22,6 @@ class TriangularP2PView(APIView):
 
 class BestPricesP2PView(APIView):
     def post(self, request):
-        best_prices = TriangularP2PServices(request.data)
+        best_prices = BestPricesP2PServices(request.data)
         response = best_prices.get_ads()
         return Response(response)
