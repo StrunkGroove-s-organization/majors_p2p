@@ -307,6 +307,11 @@ class CountActionsInTwo(BaseCount):
     
 
 class CountActionsInThree(BaseCount):
+    def __init__(self):
+        super().__init__()
+
+        self.min_spread = 1
+
     def create_key(self, trade_type: str, token: str) -> str:
         return f'{trade_type}--{token}--{3}'
     
