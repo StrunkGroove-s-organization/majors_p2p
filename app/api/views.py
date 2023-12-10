@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .serializers import P2PSerializer
-from .services import BinaryP2PServices, TriangularP2PServices
+from .services import BinaryP2PServices, TriangularP2PServices, BestPricesP2PServices
 
 
 class BinaryP2PView(APIView):

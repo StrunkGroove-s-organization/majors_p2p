@@ -184,6 +184,41 @@ class BaseAndFiltersP2P(BaseP2P):
         self.delete_ads(data, delete_indexes)
 
 
+    def create_unique_record(ad: dict):
+        buy_exchange = ad['1']['exchange']
+        buy_pay = ad['1']['best_payment']
+        buy_token = ad['1']['token']
+
+        sell_exchange = ad['2']['exchange']
+        sell_pay = ad['2']['best_payment']
+        sell_token = ad['2']['token']
+        
+        buy = f'{buy_exchange}--{buy_pay}--{buy_token}'
+        sell = f'{sell_exchange}--{sell_pay}--{sell_token}'
+
+        return f'{buy}--{sell}', 
+        
+
+    def filter_best_links(self, data):
+        unique_links = {}
+        delete_indexes = []
+
+        for index, ad in enumerate(data):
+            unique_record = self.create_unique_record(ad)
+
+            if unique_record not in unique_links:
+                unique_links[unique_record] = {
+                    'index': index,
+                    'spread': ad['spread']
+                }
+            else:
+                if ad['spread'] > unique_links[unique_record]['spread']:
+                    delete_indexes.append(index)
+                else:
+                    delete_indexes.append(unique_links[unique_record]['index'])
+
+        self.delete_ads(data, delete_indexes)
+
 class TriangularP2PServices(BaseAndFiltersP2P):
     def __init__(self, validated_data):
         super().__init__(validated_data)

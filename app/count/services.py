@@ -123,7 +123,7 @@ class BaseCount(BaseP2P):
         }
 
 
-    def exchange_query(self, ex: str, site: str, pay: str, offset=0) -> str:
+    def exchange_query(self, ex: str, site: str, pay: str, limit: int) -> str:
         sort_direction = "ASC" if site == "BUY" else "DESC"
         query = f"""
             (
@@ -138,14 +138,14 @@ class BaseCount(BaseP2P):
                     SELECT value::text FROM jsonb_array_elements_text(payments)
                 )
                 ORDER BY price {sort_direction}
-                LIMIT 1
-                OFFSET {offset}
+                LIMIT {limit}
             )
         """
+        # OFFSET {offset}
         return query
     
 
-    def create_exchange_query(self) -> tuple:
+    def create_exchange_query(self, limit) -> tuple:
         union_queries = []
         params = []
 
@@ -158,7 +158,7 @@ class BaseCount(BaseP2P):
                     if token not in tokens_ex: continue
 
                     for pay in payments:
-                        query = self.exchange_query(ex, site, pay)
+                        query = self.exchange_query(ex, site, pay, limit=limit)
                         params.extend([token, site])
                         union_queries.append(query)
 
@@ -166,8 +166,8 @@ class BaseCount(BaseP2P):
         return full_query, params
 
 
-    def execute_exchange_query(self) -> tuple:
-        query, params = self.create_exchange_query()
+    def execute_exchange_query(self, limit) -> tuple:
+        query, params = self.create_exchange_query(limit)
         with connection.cursor() as cursor:
             cursor.execute(query, params)
             result = cursor.fetchall()
@@ -220,8 +220,8 @@ class BaseCount(BaseP2P):
         return response
 
 
-    def get_ads(self) -> tuple:
-        result = self.execute_exchange_query()
+    def get_ads(self, limit=3) -> tuple:
+        result = self.execute_exchange_query(limit)
         ads = self.create_response(result)
         buy_dict, sell_dict = self.split_and_sort_ads(ads)
         return buy_dict, sell_dict
@@ -295,7 +295,7 @@ class CountActionsInTwo(BaseCount):
 
 
     def count_in_two_actions(self) -> None:
-        buy_dict, sell_dict = self.get_ads()
+        buy_dict, sell_dict = self.get_ads(limit=1)
 
         self.count(buy_dict, buy_dict, self.trade_types['b-b'])
         self.count(buy_dict, sell_dict, self.trade_types['b-s'])
