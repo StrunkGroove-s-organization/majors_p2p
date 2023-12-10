@@ -383,9 +383,6 @@ class CountActionsInThree(BaseCount):
                                             spot_price,
                                             reverse=reverse)
                 
-                if buy_token == "USDT":
-                    print(f'{buy_token}--{sell_token}--{spread}')
-                    
                 if spread < self.min_spread: continue
 
                 if token not in links:
@@ -397,7 +394,7 @@ class CountActionsInThree(BaseCount):
                             '2': sell_ad}
                 
                 links[token].append(record)
-        
+
         return links
 
 
@@ -445,9 +442,9 @@ class CountActionsInThree(BaseCount):
         spot = self.binance_spot()
 
         data = {
-            # self.trade_types['b-b']: self.count(dict['buy'], dict['buy'], spot),
-            # self.trade_types['b-s']: self.count(dict['buy'], dict['sell'], spot),
-            # self.trade_types['s-b']: self.count(dict['sell'], dict['buy'], spot),
+            self.trade_types['b-b']: self.count(dict['buy'], dict['buy'], spot),
+            self.trade_types['b-s']: self.count(dict['buy'], dict['sell'], spot),
+            self.trade_types['s-b']: self.count(dict['sell'], dict['buy'], spot),
             self.trade_types['s-s']: self.count(dict['sell'], dict['sell'], spot)
         }
 
