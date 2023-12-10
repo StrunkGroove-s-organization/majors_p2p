@@ -43,10 +43,10 @@ app.conf.beat_schedule = {
     },
 
     ## Calculations ###
-    'count-two-actions-task': {
-        'task': 'count.tasks.count_in_two_actions',
-        'schedule': 10,
-    },
+    # 'count-two-actions-task': {
+    #     'task': 'count.tasks.count_in_two_actions',
+    #     'schedule': 10,
+    # },
     'count-three-actions-task': {
         'task': 'count.tasks.count_in_three_actions',
         'schedule': 10,

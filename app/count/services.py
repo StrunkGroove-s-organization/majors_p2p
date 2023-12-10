@@ -176,22 +176,18 @@ class BaseCount(BaseP2P):
         return result
 
 
-    def split_and_sort_ads(self, exchange_ads: list) -> tuple:
-        buy_ads = {token: [] for token in self.tokens}
-        sell_ads = {token: [] for token in self.tokens}
+    def split_and_sort_ads(self, ads: list) -> tuple:
+        buy_ads = []
+        sell_ads = []
 
-        for ad in exchange_ads:
-            token = ad['token']
+        for ad in ads:
             if ad['buy_sell'] == 'BUY':
-                buy_ads[token].append(ad)
+                buy_ads.append(ad)
             elif ad['buy_sell'] == 'SELL':
-                sell_ads[token].append(ad)
+                sell_ads.append(ad)
 
-        for token, token_ads in buy_ads.items():
-            token_ads.sort(key=lambda x: x['price'], reverse=False)
-
-        for token, token_ads in sell_ads.items():
-            token_ads.sort(key=lambda x: x['price'], reverse=True)
+        buy_ads.sort(key=lambda x: x['price'], reverse=False)
+        sell_ads.sort(key=lambda x: x['price'], reverse=True)
 
         return buy_ads, sell_ads
 
@@ -226,12 +222,10 @@ class BaseCount(BaseP2P):
         query, params = self.create_exchange_query()
         result = self.execute_exchange_query(query, params)
 
-        exchange = self.create_response(result)
-        buy_dict, sell_dict = self.split_and_sort_ads(exchange)
-        data = {
-            'buy': buy_dict,
-            'sell': sell_dict,
-        } 
+        ads = self.create_response(result)
+        buy_list, sell_list = self.split_and_sort_ads(ads)
+        data = {'buy': buy_list,
+                'sell': sell_list} 
         return data
 
 
@@ -358,44 +352,43 @@ class CountActionsInThree(BaseCount):
         return spread
 
 
-    def count(self, buy_ads: dict, sell_ads: dict, spot) -> dict:
+    def count(self, buy_ads: list, sell_ads: list, spot) -> dict:
         links = {}
 
-        for buy_token, buy_ads_by_token in buy_ads.items():
-            for buy_ad in buy_ads_by_token:
-            
-                for sell_token, sell_ads_by_token in sell_ads.items():
-                    for sell_ad in sell_ads_by_token:
-                        
-                        if buy_token == 'USDT' and sell_token != 'USDT':
-                            token = sell_token
-                        elif buy_token != 'USDT' and sell_token == 'USDT':
-                            token = buy_token
-                        else:
-                            continue
-                        
-                        key = self.get_key(token)
-                        spot_price = self.get_price_by_symbol(spot, key)
+        for buy_ad in buy_ads:
+            buy_token = buy_ad['token']
 
-                        if spot_price == None:  continue
+            for sell_ad in sell_ads:
+                sell_token = sell_ad['token']
 
-                        spread = self.count_spread(buy_ad['price'], 
-                                                    sell_ad['price'], 
-                                                    spot_price)
+                if buy_token == 'USDT' and sell_token != 'USDT':
+                    token = sell_token
+                elif buy_token != 'USDT' and sell_token == 'USDT':
+                    token = buy_token
+                else:
+                    continue
+                
+                key = self.get_key(token)
+                spot_price = self.get_price_by_symbol(spot, key)
 
-                        if spread < self.min_spread: continue
+                if spot_price == None:  continue
 
-                        if token not in links:
-                            links[token] = []
+                spread = self.count_spread(buy_ad['price'], 
+                                            sell_ad['price'], 
+                                            spot_price)
 
-                        record = {'spread': spread,
-                                    'spot': spot_price,
-                                    '1': buy_ad,
-                                    '2': sell_ad}
-                        
-                        links[token].append(record)
+                if spread < self.min_spread: continue
+
+                if token not in links:
+                    links[token] = []
+
+                record = {'spread': spread,
+                            'spot': spot_price,
+                            '1': buy_ad,
+                            '2': sell_ad}
+                
+                links[token].append(record)
         
-        print(links.keys())
         return links
 
 
