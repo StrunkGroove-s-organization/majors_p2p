@@ -39,12 +39,11 @@ class BaseCount(BaseP2P):
             }, 
             'totalcoin': {
                 'tokens': {
-                    'USDT', 'BTC', 'ETH', 'LTC',
+                    'USDT', 'BTC', 'ETH',
                 },
                 'pay': {
                     self.payments['tinkoff'], self.payments['sber'],
-                    self.payments['ymoney'], self.payments['mts'], 
-                    self.payments['raiffeisen'],
+                    self.payments['sbp'], self.payments['raiffeisen'],
                 }
             },
             'garantex': {
@@ -106,19 +105,19 @@ class BaseCount(BaseP2P):
                 },
                 'pay': {
                     self.payments['raiffeisen'], self.payments['tinkoff'],
-                    self.payments['sber'],
+                    self.payments['sber']
                 }
             },
             'huobi': {
                 'tokens': {
-                    'USDT', 'BTC', 'ETH', 'USDD', 'HT', 'TRX', 'EOS', 'XRP', 
-                    'LTC'
+                    'USDT', 'BTC', 'ETH' #, 'USDD', 'HT', 'TRX', 'EOS', 'XRP', 
+                    # 'LTC'
                 },
                 'pay': {
-                    self.payments['raiffeisen'], self.payments['post'],
+                    self.payments['raiffeisen'], self.payments['sbp'],
                     self.payments['tinkoff'], self.payments['sber'],
-                    self.payments['sbp'], self.payments['russian'],
-                    self.payments['post'],
+                    # self.payments['russian'],
+                    # self.payments['post'], self.payments['post'],
                 }
             },
         }

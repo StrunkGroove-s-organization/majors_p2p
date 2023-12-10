@@ -17,7 +17,7 @@ def totalcoin():
         },
         'path': ['data'],
         'class_db': TotalCoinModel,
-        'currencies': ['BTC', 'USDT', 'ETH', 'LTC'],
+        'currencies': ['BTC', 'USDT', 'ETH'],
         'trade_types': ["buy", "sell"],
         'timeout': 0.5,
     }
@@ -95,6 +95,7 @@ def gateio():
         'path': ['push_order'],
         'class_db': GateioModel,
         'currencies':  ['USDT_RUB', 'BTC_RUB', 'ETH_RUB'],
+        # SBP, BANK transfer
         'pay_types': ['qiwi', 'raiffe'],
         'exchange': 'Gateio',
         'timeout': 0.5,
@@ -134,11 +135,11 @@ def huobi():
         'class_db': HuobiModel,
         # 1 - BTC, 2 - USDT, 3 - ETH, 4 - HT, 5 - EOS, 7 - XRP, 8 - LTC
         # 22 - TRX, 62 - USDD
-        'currencies':  [1, 2, 3, 4, 5, 7, 8, 22, 62],
+        'currencies':  [1, 2, 3],
         'trade_types': ['SELL', 'BUY'],
         # 9 - QIWI, 19 - Юmoney, 28 - Tinkoff, 29 - Sber, 36 - Raiff, 69 - SBP
         # 356 - MTS, 357 - Post bank
-        'pay_types': [9, 19, 28, 29, 36, 69, 356, 357],
+        'pay_types': [28, 29, 36, 69],
         'exchange': 'Houbi',
         'timeout': 0.01,
     }
@@ -166,7 +167,7 @@ def bybit():
         'trade_types': ['1', '0'],
         # 64 - Raiff, 533 - Russian Standart, 574 - ЮMoney, 581 - Tinkoff
         # 582 - Sber
-        'pay_types': [["64"], ["533"], ["574"], ["581"], ["582"]],
+        'pay_types': [["64"], ["581"], ["582"]],
         'exchange': 'Bybit',
         'timeout': 0.01,
     }

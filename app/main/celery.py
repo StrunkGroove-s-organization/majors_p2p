@@ -19,7 +19,7 @@ app.conf.beat_schedule = {
     },
     'huobi-task': {
         'task': 'parsing.tasks.huobi',
-        'schedule': 30,
+        'schedule': 15,
     },
     'gateio-task': {
         'task': 'parsing.tasks.gateio',
