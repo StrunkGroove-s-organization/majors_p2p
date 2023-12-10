@@ -214,9 +214,7 @@ class BaseAndFiltersP2P(BaseP2P):
             else:
                 if ad['spread'] > unique_links[unique_record]['spread']:
                     delete_indexes.append(index)
-                    unique_links[unique_record] = {
-                        'spread': ad['spread']
-                    }
+                    unique_links[unique_record]['spread'] = ad['spread']
                 else:
                     delete_indexes.append(unique_links[unique_record]['index'])
 
