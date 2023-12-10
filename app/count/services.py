@@ -328,7 +328,9 @@ class CountActionsInThree(BaseCount):
         elif fiat == 'SHIB':
             return 'SHIBUSDT'
         elif fiat == 'USDC':  
-            return 'USDCUSDT' 
+            return 'USDCUSDT'
+        elif fiat == 'DAI':  
+            return 'DAIUSDT' 
         elif fiat == 'TON':
             return 'TON_USDT'
         elif fiat == 'HT':
