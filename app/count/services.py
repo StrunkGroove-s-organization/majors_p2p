@@ -162,7 +162,7 @@ class BaseCount(BaseP2P):
                         SELECT value::text FROM jsonb_array_elements_text(payments)
                     )
                 )
-                LIMIT 1
+                LIMIT 5
             )
         """
         return query
