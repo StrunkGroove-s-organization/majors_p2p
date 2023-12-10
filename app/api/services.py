@@ -196,7 +196,7 @@ class BaseAndFiltersP2P(BaseP2P):
         buy = f'{buy_exchange}--{buy_pay}--{buy_token}'
         sell = f'{sell_exchange}--{sell_pay}--{sell_token}'
 
-        return f'{buy}--{sell}', 
+        return f'{buy}--{sell}'
         
 
     def filter_best_links(self, data):
