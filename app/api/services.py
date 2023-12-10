@@ -184,7 +184,7 @@ class BaseAndFiltersP2P(BaseP2P):
         self.delete_ads(data, delete_indexes)
 
 
-    def create_unique_record(self, ad: dict):
+    def create_unique_record(self, ad: dict) -> str:
         buy_exchange = ad['1']['exchange']
         buy_pay = ad['1']['best_payment']
         buy_token = ad['1']['token']
@@ -197,7 +197,7 @@ class BaseAndFiltersP2P(BaseP2P):
         sell = f'{sell_exchange}--{sell_pay}--{sell_token}'
 
         return f'{buy}--{sell}'
-        
+
 
     def filter_best_links(self, data):
         unique_links = {}
@@ -214,6 +214,9 @@ class BaseAndFiltersP2P(BaseP2P):
             else:
                 if ad['spread'] > unique_links[unique_record]['spread']:
                     delete_indexes.append(index)
+                    unique_links[unique_record] = {
+                        'spread': ad['spread']
+                    }
                 else:
                     delete_indexes.append(unique_links[unique_record]['index'])
 
