@@ -240,30 +240,31 @@ class CountActionsInTwo(BaseCount):
         return f'{trade_type}--{token}--{2}'
     
 
-    def count(self, total_links: dict, buy_data: dict,
-              sell_data: dict, trade_type: str) -> str:
+    def count(self, total_links: dict, buy_ads: dict,
+              sell_ads: dict, trade_type: str) -> str:
 
-        for token in self.tokens:
-            key = self.create_key(trade_type, token)
-            total_links[key] = []
+        for buy_ad in buy_ads:
+            buy_token = buy_ad['token']
+            buy_price = buy_ad['price']
 
-            buy_ads = buy_data[token]
-            sell_ads = sell_data[token]
+            for sell_ad in sell_ads:
+                sell_token = sell_ad['token']
+                sell_price = sell_ad['price']
 
-            for buy_ad in buy_ads:
-                buy_price = buy_ad['price']
+                if buy_token != sell_token: continue
 
-                for sell_ad in sell_ads:
-                    sell_price = sell_ad['price']
+                key = self.create_key(trade_type, buy_token)
+                if key not in total_links:
+                    total_links[key] = []
+                
+                spread = self.count_spread(buy_price, sell_price)
 
-                    spread = self.count_spread(buy_price, sell_price)
-
-                    if spread < self.min_spread: continue
-                    total_links[key].append({
-                        'spread': spread,
-                        '1': buy_ad,
-                        '2': sell_ad,
-                    })
+                if spread < self.min_spread: continue
+                total_links[key].append({
+                    'spread': spread,
+                    '1': buy_ad,
+                    '2': sell_ad,
+                })
 
 
     def save(self, total_links: dict) -> str:
