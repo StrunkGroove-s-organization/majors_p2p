@@ -25,10 +25,10 @@ app.conf.beat_schedule = {
         'task': 'parsing.tasks.gateio',
         'schedule': 15,
     },
-    'garantex-task': {
-        'task': 'parsing.tasks.garantex',
-        'schedule': 5,
-    },
+    # 'garantex-task': {
+    #     'task': 'parsing.tasks.garantex',
+    #     'schedule': 5,
+    # },
     'totalcoin-task': {
         'task': 'parsing.tasks.totalcoin',
         'schedule': 10,

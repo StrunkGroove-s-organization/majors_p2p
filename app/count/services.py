@@ -46,14 +46,14 @@ class BaseCount(BaseP2P):
                     self.payments['sbp'], self.payments['raiffeisen'],
                 }
             },
-            'garantex': {
-                'tokens': {
-                    'USDT', 'BTC', 'ETH', 'USDC', 'DAI'
-                },
-                'pay': {
-                    self.payments['tinkoff'], self.payments['sber'],
-                }
-            },
+            # 'garantex': {
+            #     'tokens': {
+            #         'USDT', 'BTC', 'ETH', 'USDC', 'DAI'
+            #     },
+            #     'pay': {
+            #         self.payments['tinkoff'], self.payments['sber'],
+            #     }
+            # },
             
             # 'exchange_mexc': {
             #     'tokens': {
@@ -141,7 +141,6 @@ class BaseCount(BaseP2P):
                 LIMIT {limit}
             )
         """
-        # OFFSET {offset}
         return query
     
 
@@ -295,7 +294,7 @@ class CountActionsInTwo(BaseCount):
 
 
     def count_in_two_actions(self) -> None:
-        buy_dict, sell_dict = self.get_ads(limit=1)
+        buy_dict, sell_dict = self.get_ads(limit=100)
 
         self.count(buy_dict, buy_dict, self.trade_types['b-b'])
         self.count(buy_dict, sell_dict, self.trade_types['b-s'])
@@ -452,7 +451,7 @@ class CountActionsInThree(BaseCount):
 
 
     def count_in_three_actions(self) -> None:
-        buy_dict, sell_dict = self.get_ads()
+        buy_dict, sell_dict = self.get_ads(limit=100)
         spot = self.binance_spot()
 
         data = {

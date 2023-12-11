@@ -187,32 +187,32 @@ class BaseAndFiltersP2P(BaseP2P):
     def create_unique_record(self, ad: dict) -> str:
         buy_exchange = ad['1']['exchange']
         buy_pay = ad['1']['best_payment']
+        buy_token = ad['1']['token']
 
         sell_exchange = ad['2']['exchange']
         sell_pay = ad['2']['best_payment']
+        sell_token = ad['2']['token']
         
-        return f'{buy_exchange}--{buy_pay}--{sell_exchange}--{sell_pay}'
+        buy = f'{buy_exchange}--{buy_pay}--{buy_token}'
+        sell = f'{sell_exchange}--{sell_pay}--{sell_token}'
+
+        return f'{buy}--{sell}'
 
 
     def filter_best_links(self, data):
-        unique_links = {}
+        unique_links = set()
         delete_indexes = []
 
         for index, ad in enumerate(data):
             unique_record = self.create_unique_record(ad)
 
             if unique_record not in unique_links:
-                unique_links[unique_record] = {'index': index,
-                                               'spread': ad['spread']}
+                unique_links.append(unique_record)
             else:
-                if unique_links[unique_record]['spread'] < ad['spread']:
-                    delete_indexes.append(index)
-                else:
-                    delete_indexes.append(unique_links[unique_record]['index'])
-                    unique_links[unique_record] = {'index': index,
-                                                   'spread': ad['spread']}
+                delete_indexes.append(index)
 
         self.delete_ads(data, delete_indexes)
+
 
 class TriangularP2PServices(BaseAndFiltersP2P):
     def __init__(self, validated_data):
@@ -269,7 +269,8 @@ class BinaryP2PServices(BaseAndFiltersP2P):
         self.filter_ord_p(values)
         self.filter_first_available(values)
         self.filter_second_available(values)
-
+        self.filter_best_links(values)
+        
         values.sort(key=lambda item: item['spread'], reverse=True)
 
         return values
