@@ -42,7 +42,7 @@ app.conf.beat_schedule = {
         'schedule': 20,
     },
 
-    ## Calculations ###
+    ### Calculations ###
     'count-two-actions-task': {
         'task': 'count.tasks.count_in_two_actions',
         'schedule': 10,
@@ -50,6 +50,12 @@ app.conf.beat_schedule = {
     'count-three-actions-task': {
         'task': 'count.tasks.count_in_three_actions',
         'schedule': 10,
+    },
+    
+    ### Best Price ###
+    'best-price-task': {
+        'task': 'count.tasks.create_best_price',
+        'schedule': 5,
     },
 }
 

@@ -10,6 +10,7 @@ from .models import (
     AdsInThree, BestLinksInThreeActions,
 )
 
+
 class BaseCount(BaseP2P):
     def __init__(self):
         super().__init__()
@@ -308,8 +309,8 @@ class CountActionsInTwo(BaseCount):
 class CountActionsInThree(BaseCount):
     def __init__(self):
         super().__init__()
-
         self.min_spread = 0.3
+
 
     def create_key(self, trade_type: str, token: str) -> str:
         return f'{trade_type}--{token}--{3}'
@@ -422,7 +423,6 @@ class CountActionsInThree(BaseCount):
                                             'spot': spot_price,
                                             '1': buy_ad,
                                             '2': sell_ad})
-
         return links
     
 
@@ -465,4 +465,18 @@ class CountActionsInThree(BaseCount):
         return number_of_links
         
 
+class BestPrices(BaseCount):
+    def create_key_best_prices(self, site: str, token: str) -> str:
+        return f'best-prices--{site}--{token}'
+
         
+    def save_in_cash(self, site: str, all_ads: dict) -> None:
+        for token, ads in all_ads.items():
+            key = self.create_key_best_prices(site, token)
+            cache.set(key, ads, self.time_cash)
+
+
+    def create_links(self) -> None:
+        buy_dict, sell_dict = self.get_ads(limit=1)
+        self.save_in_cash('BUY', buy_dict)
+        self.save_in_cash('SELL', sell_dict)

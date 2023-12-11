@@ -5,12 +5,19 @@ class BaseP2P:
     def __init__(self, validated_data):
         self.validated_data = validated_data
 
+
+    def create_key_best_prices(self, site: str, token: str) -> str:
+        return f'best-prices--{site}--{token}'
+
+
     def create_key(self, trade_type, crypto, number):
         return f'{trade_type}--{crypto}--{number}'
+
 
     def get_trade_type(self):
         trade_type = self.validated_data['trade_type']
         return trade_type
+
 
     def get_crypto(self):
         crypto = self.validated_data['crypto']
@@ -300,5 +307,14 @@ class BinaryP2PServices(BaseAndFiltersP2P):
         return unique_data
     
 
-class BestPricesP2PServices:
-    pass
+class BestPricesP2PServices(BaseP2P):
+    def __init__(self, validated_data):
+        super().__init__(validated_data)
+
+
+    def get_ads(self):
+        key = self.create_key_best_prices(self.validated_data['buy_sell'], 
+                                          self.validated_data['token'],
+                                          )
+        values = cache.get(key)
+        return values
