@@ -200,18 +200,18 @@ class BaseAndFiltersP2P(BaseP2P):
 
 
     def filter_best_links(self, data):
-        unique_links = set()
-        delete_indexes = []
+        filtered_data = []
+        unique_records = set()
 
-        for index, ad in enumerate(data):
+        for ad in data:
             unique_record = self.create_unique_record(ad)
 
-            if unique_record not in unique_links:
-                unique_links.append(unique_record)
-            else:
-                delete_indexes.append(index)
+            if unique_record not in unique_records:
+                unique_records.add(unique_record)
+                filtered_data.append(ad)
 
-        self.delete_ads(data, delete_indexes)
+        return filtered_data
+
 
 
 class TriangularP2PServices(BaseAndFiltersP2P):
@@ -238,11 +238,11 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         self.filter_first_available(values)
         self.filter_second_available(values)
         self.filter_only_stable_coin(values)
-        self.filter_best_links(values)
+        unique_data = self.filter_best_links(values)
 
-        values.sort(key=lambda item: item['spread'], reverse=True)
+        unique_data.sort(key=lambda item: item['spread'], reverse=True)
 
-        return values
+        return unique_data
 
 
 class BinaryP2PServices(BaseAndFiltersP2P):
