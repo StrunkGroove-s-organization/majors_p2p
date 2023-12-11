@@ -187,16 +187,11 @@ class BaseAndFiltersP2P(BaseP2P):
     def create_unique_record(self, ad: dict) -> str:
         buy_exchange = ad['1']['exchange']
         buy_pay = ad['1']['best_payment']
-        buy_token = ad['1']['token']
 
         sell_exchange = ad['2']['exchange']
         sell_pay = ad['2']['best_payment']
-        sell_token = ad['2']['token']
         
-        buy = f'{buy_exchange}--{buy_pay}--{buy_token}'
-        sell = f'{sell_exchange}--{sell_pay}--{sell_token}'
-
-        return f'{buy}--{sell}'
+        return f'{buy_exchange}--{buy_pay}--{sell_exchange}--{sell_pay}'
 
 
     def filter_best_links(self, data):
