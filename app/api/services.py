@@ -184,7 +184,33 @@ class BaseAndFiltersP2P(BaseP2P):
         self.delete_ads(data, delete_indexes)
 
 
-    def create_unique_record(self, ad: dict) -> str:
+    def create_unique_record_two_actions(self, ad: dict) -> str:
+        buy_exchange = ad['1']['exchange']
+        buy_pay = ad['1']['best_payment']
+
+        sell_exchange = ad['2']['exchange']
+        sell_pay = ad['2']['best_payment']
+        
+        buy = f'{buy_exchange}--{buy_pay}'
+        sell = f'{sell_exchange}--{sell_pay}'
+
+        return f'{buy}--{sell}'
+
+
+    def filter_best_links_two_actions(self, data: dict):
+        unique_records = {}
+
+        for ad in data:
+            unique_record = self.create_unique_record_two_actions(ad)
+
+            if unique_record not in unique_records or \
+            ad['spread'] < unique_records[unique_record]['spread']:
+                unique_records[unique_record] = ad
+
+        return list(unique_records.values())
+    
+
+    def create_unique_record_three_actions(self, ad: dict) -> str:
         buy_exchange = ad['1']['exchange']
         buy_pay = ad['1']['best_payment']
         buy_token = ad['1']['token']
@@ -199,20 +225,17 @@ class BaseAndFiltersP2P(BaseP2P):
         return f'{buy}--{sell}'
 
 
-    def filter_best_links_three_actions(self, data):
+    def filter_best_links_three_actions(self, data: dict):
         unique_records = {}
-        filtered_data = []
 
         for ad in data:
-            unique_record = self.create_unique_record(ad)
+            unique_record = self.create_unique_record_three_actions(ad)
 
             if unique_record not in unique_records or \
             ad['spread'] < unique_records[unique_record]['spread']:
                 unique_records[unique_record] = ad
 
-        filtered_data = list(unique_records.values())
-        return filtered_data
-
+        return list(unique_records.values())
 
 
 class TriangularP2PServices(BaseAndFiltersP2P):
@@ -239,7 +262,7 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         self.filter_first_available(values)
         self.filter_second_available(values)
         self.filter_only_stable_coin(values)
-        unique_data = self.filter_best_links_three_actions(values)
+        unique_data = self.create_unique_record_three_actions(values)
 
         unique_data.sort(key=lambda item: item['spread'], reverse=True)
 
@@ -270,10 +293,11 @@ class BinaryP2PServices(BaseAndFiltersP2P):
         self.filter_ord_p(values)
         self.filter_first_available(values)
         self.filter_second_available(values)
+        unique_data = self.filter_best_links_two_actions(values)
 
-        values.sort(key=lambda item: item['spread'], reverse=True)
+        unique_data.sort(key=lambda item: item['spread'], reverse=True)
 
-        return values
+        return unique_data
     
 
 class BestPricesP2PServices:
