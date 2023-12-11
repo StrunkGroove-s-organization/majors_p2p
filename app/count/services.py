@@ -294,7 +294,7 @@ class CountActionsInTwo(BaseCount):
 
 
     def count_in_two_actions(self) -> None:
-        buy_dict, sell_dict = self.get_ads(limit=15)
+        buy_dict, sell_dict = self.get_ads(limit=25)
 
         self.count(buy_dict, buy_dict, self.trade_types['b-b'])
         self.count(buy_dict, sell_dict, self.trade_types['b-s'])
@@ -451,7 +451,7 @@ class CountActionsInThree(BaseCount):
 
 
     def count_in_three_actions(self) -> None:
-        buy_dict, sell_dict = self.get_ads(limit=15)
+        buy_dict, sell_dict = self.get_ads(limit=25)
         spot = self.binance_spot()
 
         data = {
