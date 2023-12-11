@@ -207,16 +207,15 @@ class BaseAndFiltersP2P(BaseP2P):
             unique_record = self.create_unique_record(ad)
 
             if unique_record not in unique_links:
-                unique_links[unique_record] = {
-                    'index': index,
-                    'spread': ad['spread']
-                }
+                unique_links[unique_record] = {'index': index,
+                                               'spread': ad['spread']}
             else:
                 if unique_links[unique_record]['spread'] < ad['spread']:
                     delete_indexes.append(index)
                 else:
                     delete_indexes.append(unique_links[unique_record]['index'])
-                    unique_links[unique_record]['spread'] = ad['spread']
+                    unique_links[unique_record] = {'index': index,
+                                                   'spread': ad['spread']}
 
         self.delete_ads(data, delete_indexes)
 
