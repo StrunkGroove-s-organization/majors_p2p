@@ -242,7 +242,7 @@ class TriangularP2PServices(BaseAndFiltersP2P):
 
         values.sort(key=lambda item: item['spread'], reverse=True)
 
-        return values
+        return len(values)
 
 
 class BinaryP2PServices(BaseAndFiltersP2P):
@@ -270,10 +270,10 @@ class BinaryP2PServices(BaseAndFiltersP2P):
         self.filter_first_available(values)
         self.filter_second_available(values)
         self.filter_best_links(values)
-        
+
         values.sort(key=lambda item: item['spread'], reverse=True)
 
-        return values
+        return len(values)
     
 
 class BestPricesP2PServices:
