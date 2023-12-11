@@ -212,11 +212,11 @@ class BaseAndFiltersP2P(BaseP2P):
                     'spread': ad['spread']
                 }
             else:
-                if ad['spread'] > unique_links[unique_record]['spread']:
+                if unique_links[unique_record]['spread'] < ad['spread']:
                     delete_indexes.append(index)
                 else:
                     delete_indexes.append(unique_links[unique_record]['index'])
-                    unique_links[unique_record]['spread'] = index
+                    unique_links[unique_record]['spread'] = ad['spread']
 
         self.delete_ads(data, delete_indexes)
 
