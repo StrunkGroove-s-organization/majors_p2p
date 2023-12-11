@@ -262,7 +262,7 @@ class TriangularP2PServices(BaseAndFiltersP2P):
         self.filter_first_available(values)
         self.filter_second_available(values)
         self.filter_only_stable_coin(values)
-        unique_data = self.create_unique_record_three_actions(values)
+        unique_data = self.filter_best_links_three_actions(values)
 
         unique_data.sort(key=lambda item: item['spread'], reverse=True)
 
