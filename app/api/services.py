@@ -317,4 +317,6 @@ class BestPricesP2PServices(BaseP2P):
                                           self.validated_data['token'],
                                           )
         values = cache.get(key)
+        if not values:
+            return []
         return values
