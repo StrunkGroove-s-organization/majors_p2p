@@ -378,8 +378,8 @@ class GateioParsing(BaseParsingP2P):
 
         record.order_q = float(ad['complete_number'])
         record.order_p = float(ad['complete_rate_month'])
-        record.lim_min = float(ad['limit_total'].split('~')[0]) * dict['price']
-        record.lim_max = float(ad['limit_total'].split('~')[1]) * dict['price']
+        record.lim_min = round(float(ad['limit_total'].split('~')[0]) * dict['price'], 2)
+        record.lim_max = round(float(ad['limit_total'].split('~')[1]) * dict['price'], 2)
         record.fiat = ad['curr_b'].upper()
         record.adv_no = ad['uid']
         available = float(ad['total'].replace(',', ''))
