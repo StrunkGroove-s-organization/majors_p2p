@@ -5,6 +5,7 @@ from .services import (
     BinaryP2PServices, TriangularP2PServices, BestPricesP2PServices
 )
 
+
 class BinaryP2PView(APIView):
     def post(self, request):
         p2p = BinaryP2PServices(request.data)
