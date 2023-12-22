@@ -83,3 +83,9 @@ class BybitModel(BaseExchange):
     exchange = models.CharField(default='Bybit')
     class Meta:
         db_table = 'bybit'
+
+
+class BitpapaModel(BaseExchange):
+    exchange = models.CharField(default='Bitpapa')
+    class Meta:
+        db_table = 'bitpapa'

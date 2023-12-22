@@ -17,6 +17,10 @@ app.conf.beat_schedule = {
         'task': 'parsing.tasks.bybit',
         'schedule': 30,
     },
+    'bitpapa-task': {
+        'task': 'parsing.tasks.bitpapa',
+        'schedule': 20,
+    },
     'huobi-task': {
         'task': 'parsing.tasks.huobi',
         'schedule': 15,

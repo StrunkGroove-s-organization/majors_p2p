@@ -1,11 +1,11 @@
 from main.celery import app
 from .models import (
     TotalCoinModel, KucoinModel, GarantexModel, GateioModel, HodlHodlModel,
-    HuobiModel, BybitModel,
+    HuobiModel, BybitModel, BitpapaModel
 )
 from .services import (
     TotalcoinParsing, KucoinParsing, GarantexParsing, GateioParsing, 
-    HodlHodlParsing, HuobiParsing, BybitParsing,
+    HodlHodlParsing, HuobiParsing, BybitParsing, BitpapaParsing
 )
 
 @app.task
@@ -174,3 +174,19 @@ def bybit():
 
     bybit = BybitParsing(dict)
     return bybit.main()
+
+
+@app.task
+def bitpapa():
+    dict = {
+        'url': 'https://bitpapa.com/api/v1/partners/ads/search?sort={sort}&crypto_currency_code={currency}&currency_code=RUB&limit=100&page=1&type={site}',
+        'path': ['ads'],
+        'class_db': BitpapaModel,
+        'currencies':  ['BTC', 'ETH', 'USDT', 'XMR', 'TON'],
+        'trade_types': ['SELL', 'BUY'],
+        'exchange': 'Bitpapa',
+        'timeout': 0.5,
+    }
+
+    bitpapa = BitpapaParsing(dict)
+    return bitpapa.main()

@@ -1,3 +1,4 @@
+import os
 import time
 import json
 
@@ -703,3 +704,94 @@ class BybitParsing(BaseParsingP2P):
         self.save_db(self.ads_list)
         return len(self.ads_list)
     
+
+class BitpapaParsing(BaseParsingP2P):
+    def __init__(self, dict: dict):
+        super().__init__(dict)
+        self.api_token_buy = os.getenv('TOKEN_FIRST')
+        self.api_token_sell = os.getenv('TOKEN_SECOND')
+        self.ads_list = []
+
+    def switch(self, method: str) -> str:
+        match method:
+            # case 'BANK_TRANSFER':
+            #     return self.payments['bank']
+            case _:
+                return method
+
+    def fetch(self, url_params: dict, headers: dict) -> dict:
+        url = self.url.format(**url_params)
+        response = requests.get(url, headers=headers)
+
+        if response.status_code != 200:
+            print(response.status_code)
+            return None
+        return response.json()
+
+    def require_info(self, ad: dict) -> tuple:
+        name = ad['user_name']
+        pay = ad['payment_method_code']
+        code = ad['payment_method_bank_code']
+        payment = code if pay == 'SPECIFIC_BANK' else pay
+        payments = self.update_payment_methods([payment])
+        price = float(ad['price'])
+        buy_sell = 'SELL' if ad['type'] == 'buy' else 'BUY'
+        token = ad['crypto_currency_code'].upper()
+
+        dict = {
+            'name': name,
+            'payments': payments,
+            'price': price,
+            'token': token,
+            'buy_sell': buy_sell,
+        }
+
+        return dict
+    
+
+    def create_record(self, ad: dict, dict: dict):
+        record = self.class_db()
+        record.id = self.index
+        record.name = dict['name']
+        record.payments = dict['payments']
+        record.buy_sell = dict['buy_sell']
+        record.token = dict['token']
+        record.price = dict['price']
+
+        record.order_q = float(ad.get('tradeMonthTimes', 0))
+        record.order_p = float(ad.get('orderCompleteRate', 0))
+        record.lim_min = float(ad['limit_min'])
+        record.lim_max = float(ad['limit_max'])
+        record.fiat = ad['currency_code']
+        record.adv_no = ad['user_name']
+        available = float(ad['limit_max'])
+        record.available = round(available / dict['price'], 4)
+        record.available_rub = available
+        return record
+    
+
+    def main(self) -> int:
+
+        for currency in self.currencies:
+            for site in self.trade_types:
+
+                sort = 'price' if site == 'SELL' else '-price'
+                token = self.api_token_sell if site == 'SELL' else self.api_token_buy
+
+                url_params = {
+                    'currency': currency,
+                    'site': site,
+                    'sort': sort,
+                }
+                headers = {
+                    'Accept': 'application/json',
+                    'X-Access-Token': token,
+                }
+
+                data = self.fetch(url_params, headers)
+                if data is None: continue
+                self.pars(data, currency)
+                time.sleep(self.timeout)
+
+        self.save_db(self.ads_list)
+        return len(self.ads_list)
