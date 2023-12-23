@@ -103,7 +103,8 @@ class BaseParsingP2P(BaseP2P):
                 self.index += 1
                 ads_list.append(record)
             else:
-                existing.payments = list(set(existing.payments).union(dict['payments']))
+                existing.payments = list(set(existing.payments) \
+                                         .union(dict['payments']))
 
 
     def save_db(self, ads: list) -> None:
@@ -743,7 +744,7 @@ class BitpapaParsing(BaseParsingP2P):
             'token': token,
             'buy_sell': buy_sell,
         }
-        print(dict)
+
         return dict
     
 
@@ -792,5 +793,5 @@ class BitpapaParsing(BaseParsingP2P):
                 self.pars(ads_list, data, currency)
                 time.sleep(self.timeout)
 
-        self.save_db(self.ads_list)
-        return len(self.ads_list)
+        self.save_db(ads_list)
+        return len(ads_list)
