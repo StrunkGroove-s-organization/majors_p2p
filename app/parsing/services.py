@@ -631,11 +631,11 @@ class BybitParsing(BaseParsingP2P):
             'canTrade': False,
         }
         response = requests.post(url=self.url, json=payload, headers=self.headers)
+        print(response.status_code)
 
         if response.status_code != 200:
             return None
         return response.json()
-    
 
     def require_info(self, ad: dict) -> tuple:
         name = ad['nickName']
@@ -653,7 +653,6 @@ class BybitParsing(BaseParsingP2P):
         }
 
         return dict
-
 
     def create_record(self, ad: dict, dict: dict):
         record = self.class_db()
