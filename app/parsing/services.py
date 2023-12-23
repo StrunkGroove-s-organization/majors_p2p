@@ -771,6 +771,7 @@ class BitpapaParsing(BaseParsingP2P):
     
 
     def main(self) -> int:
+        ads_list = []
 
         for currency in self.currencies:
             for site in self.trade_types:
@@ -790,7 +791,7 @@ class BitpapaParsing(BaseParsingP2P):
 
                 data = self.fetch(url_params, headers)
                 if data is None: continue
-                self.pars(data, currency)
+                self.pars(ads_list, data, currency)
                 time.sleep(self.timeout)
 
         self.save_db(self.ads_list)
