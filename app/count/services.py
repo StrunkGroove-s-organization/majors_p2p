@@ -89,14 +89,14 @@ class BaseCount(BaseP2P):
                     self.payments['raiffeisen'], self.payments['qiwi'],
                 }
             },
-            # 'beribit': {
-            #     'tokens': {
-            #         'USDT'
-            #     },
-            #     'pay': {
-            #         self.payments['tinkoff'], self.payments['sber'],
-            #     }
-            # }, 
+            'beribit': {
+                'tokens': {
+                    'USDT'
+                },
+                'pay': {
+                    self.payments['tinkoff'], self.payments['sber'],
+                }
+            }, 
             'bybit': {
                 'tokens': {
                     'USDT', 'BTC', 'ETH', 'USDC'
