@@ -692,7 +692,7 @@ class BitpapaParsing(BaseParsingP2P):
             case 'B80':
                 return self.payments['sbp']
             case _:
-                return method
+                return None
 
     def fetch(self, url_params: dict, headers: dict) -> dict:
         url = self.url.format(**url_params)
