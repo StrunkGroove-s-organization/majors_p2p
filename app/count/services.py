@@ -72,18 +72,15 @@ class BaseCount(BaseP2P):
                     self.payments['tinkoff'], self.payments['sber'],
                 }
             },
-            # 'exchange_bitpapa': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH', 'TON', 'XMR',
-            #     },
-            #     'pay': {
-            #         'Tinkoff',
-            #         'Sber',
-            #         'ЮMoney',
-            #         'MTS-Bank',
-            #         'Raiffeisenbank',
-            #     }
-            # },
+            'bitpapa': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH', 'TON', 'XMR',
+                },
+                'pay': {
+                    self.payments['tinkoff'], self.payments['sber'],
+                    self.payments['raiffeisen']
+                }
+            },
             'gateio': {
                 'tokens': {
                     'USDT', 'BTC', 'ETH'

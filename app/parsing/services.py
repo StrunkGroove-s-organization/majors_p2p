@@ -683,8 +683,14 @@ class BitpapaParsing(BaseParsingP2P):
 
     def switch(self, method: str) -> str:
         match method:
-            # case 'BANK_TRANSFER':
-            #     return self.payments['bank']
+            case 'B8':
+                return self.payments['raiffeisen']
+            case 'B1':
+                return self.payments['sber']
+            case 'B3':
+                return self.payments['tinkoff']
+            case 'B80':
+                return self.payments['sbp']
             case _:
                 return method
 
