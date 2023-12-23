@@ -791,7 +791,8 @@ class BeribitParsing(BaseParsingP2P):
         record.id = self.index
         record.name = 'Биржевой стакан'
         record.payments = [self.payments['tinkoff'], self.payments['sber']]
-        record.buy_sell = trade_type
+        buy_sell = 'SELL' if trade_type == 'Asks' else 'BUY'
+        record.buy_sell = buy_sell
         record.token = 'USDT'
         record.price = price
         record.order_q = 100
