@@ -743,7 +743,7 @@ class BitpapaParsing(BaseParsingP2P):
             'token': token,
             'buy_sell': buy_sell,
         }
-
+        print(dict)
         return dict
     
 
