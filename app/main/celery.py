@@ -17,8 +17,16 @@ app.conf.beat_schedule = {
         'task': 'parsing.tasks.bybit',
         'schedule': 30,
     },
-    'bitpapa-task': {
-        'task': 'parsing.tasks.bitpapa',
+    'mexc-task': {
+        'task': 'parsing.tasks.mexc',
+        'schedule': 30,
+    },
+    # 'bitpapa-task': {
+    #     'task': 'parsing.tasks.bitpapa',
+    #     'schedule': 20,
+    # },
+    'beribit-task': {
+        'task': 'parsing.tasks.beribit',
         'schedule': 20,
     },
     'huobi-task': {

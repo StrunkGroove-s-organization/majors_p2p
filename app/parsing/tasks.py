@@ -1,11 +1,12 @@
 from main.celery import app
 from .models import (
     TotalCoinModel, KucoinModel, GarantexModel, GateioModel, HodlHodlModel,
-    HuobiModel, BybitModel, BitpapaModel
+    HuobiModel, BybitModel, BitpapaModel, BeribitModel, MexcModel
 )
 from .services import (
     TotalcoinParsing, KucoinParsing, GarantexParsing, GateioParsing, 
-    HodlHodlParsing, HuobiParsing, BybitParsing, BitpapaParsing
+    HodlHodlParsing, HuobiParsing, BybitParsing, BitpapaParsing, BeribitParsing,
+    MexcParsing
 )
 
 @app.task
@@ -190,3 +191,76 @@ def bitpapa():
 
     bitpapa = BitpapaParsing(dict)
     return bitpapa.main()
+
+
+@app.task
+def bitpapa():
+    dict = {
+        'url': 'https://bitpapa.com/api/v1/partners/ads/search?sort={sort}&crypto_currency_code={currency}&currency_code=RUB&limit=100&page=1&type={site}',
+        'path': ['ads'],
+        'class_db': BitpapaModel,
+        'currencies':  ['BTC', 'ETH', 'USDT', 'XMR', 'TON'],
+        'trade_types': ['SELL', 'BUY'],
+        'exchange': 'Bitpapa',
+        'timeout': 0.5,
+    }
+
+    bitpapa = BitpapaParsing(dict)
+    return bitpapa.main()
+
+
+@app.task
+def beribit():
+    dict = {
+        'url': 'wss://beribit.com/ws/depth/usdtrub',
+        'headers': {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Accept': 'application/json, text/plain, */*',
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0',
+        },
+        'max_ads': 2,
+        'path': ['Depth'],
+        'class_db': BeribitModel,
+        'trade_types': ['Asks', 'Bids'],
+        'exchange': 'Beribit',
+        'timeout': 0.5,
+    }
+
+    beribit = BeribitParsing(dict)
+    return beribit.main()
+
+
+@app.task
+def mexc():
+    dict = {
+        'url': 'https://p2p.mexc.com/api/market?allowTrade=false&amount=&blockTrade=false&coinId={currency}&countryCode=&currency=RUB&follow=false&haveTrade=false&page=1&payMethod={pay_type}&tradeType={site}',
+        'headers': {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate',
+            'Referer': 'https://otc.mexc.com/',
+            'Language': 'en-US',
+            'Version': '3.3.7',
+            'Origin': 'https://otc.mexc.com',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+            'Te': 'trailers',
+        },
+        'path': ['data'],
+        'currencies':  [
+            '34309140878b4ae99f195ac091d49bab', # USDC
+            'febc9973be4d4d53bb374476239eb219', # BTC
+            '128f589271cb4951b03e71e6323eb7be', # USDT
+            '93c38b0169214f8689763ce9a63a73ff', # ETH
+            ],
+        'class_db': MexcModel,
+        'trade_types': ['SELL', 'BUY'],
+        'pay_types': ['12', '13'], # 12 - Sber, 13 - Tinkoff
+        'exchange': 'Mexc',
+        'timeout': 0.5,
+    }
+
+    mexc = MexcParsing(dict)
+    return mexc.main()

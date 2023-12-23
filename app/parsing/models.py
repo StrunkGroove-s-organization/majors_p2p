@@ -89,3 +89,15 @@ class BitpapaModel(BaseExchange):
     exchange = models.CharField(default='Bitpapa')
     class Meta:
         db_table = 'bitpapa'
+
+
+class BeribitModel(BaseExchange):
+    exchange = models.CharField(default='Beribit')
+    class Meta:
+        db_table = 'beribit'
+
+
+class MexcModel(BaseExchange):
+    exchange = models.CharField(default='Mexc')
+    class Meta:
+        db_table = 'mexc'

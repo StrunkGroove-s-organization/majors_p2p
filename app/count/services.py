@@ -56,14 +56,14 @@ class BaseCount(BaseP2P):
             #     }
             # },
             
-            # 'exchange_mexc': {
-            #     'tokens': {
-            #         'USDT', 'BTC', 'ETH', 'USDC',
-            #     },
-            #     'pay': {
-            #         'Tinkoff', 'Sber',
-            #     }
-            # },
+            'mexc': {
+                'tokens': {
+                    'USDT', 'BTC', 'ETH', 'USDC',
+                },
+                'pay': {
+                    self.payments['tinkoff'], self.payments['sber'],
+                }
+            },
             'hodlhodl': {
                 'tokens': {
                     'BTC'
@@ -92,14 +92,14 @@ class BaseCount(BaseP2P):
                     self.payments['raiffeisen'], self.payments['qiwi'],
                 }
             },
-            # 'exchange_beribit': {
-            #     'tokens': {
-            #         'USDT'
-            #     },
-            #     'pay': {
-            #         'Tinkoff', 'Sber',
-            #     }
-            # }, 
+            'beribit': {
+                'tokens': {
+                    'USDT'
+                },
+                'pay': {
+                    self.payments['tinkoff'], self.payments['sber'],
+                }
+            }, 
             'bybit': {
                 'tokens': {
                     'USDT', 'BTC', 'ETH', 'USDC'

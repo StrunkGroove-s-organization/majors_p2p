@@ -15,6 +15,9 @@ admin.site.register(models.GateioModel, BaseParsingAdmin)
 admin.site.register(models.HodlHodlModel, BaseParsingAdmin)
 admin.site.register(models.HuobiModel, BaseParsingAdmin)
 admin.site.register(models.BybitModel, BaseParsingAdmin)
+admin.site.register(models.BitpapaModel, BaseParsingAdmin)
+admin.site.register(models.BeribitModel, BaseParsingAdmin)
+admin.site.register(models.MexcModel, BaseParsingAdmin)
 
 
 # class BaseInfoAdmin(admin.ModelAdmin):
