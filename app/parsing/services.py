@@ -631,7 +631,6 @@ class BybitParsing(BaseParsingP2P):
             'canTrade': False,
         }
         response = requests.post(url=self.url, json=payload, headers=self.headers)
-        print(response.status_code)
 
         if response.status_code != 200:
             return None
@@ -721,9 +720,9 @@ class BitpapaParsing(BaseParsingP2P):
     def fetch(self, url_params: dict, headers: dict) -> dict:
         url = self.url.format(**url_params)
         response = requests.get(url, headers=headers)
+        print(response.status_code)
 
         if response.status_code != 200:
-            print(response.status_code)
             return None
         return response.json()
 
