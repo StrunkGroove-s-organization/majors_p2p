@@ -78,7 +78,7 @@ class BaseCount(BaseP2P):
                 },
                 'pay': {
                     self.payments['tinkoff'], self.payments['sber'],
-                    self.payments['raiffeisen']
+                    self.payments['raiffeisen'], self.payments['sbp']
                 }
             },
             'gateio': {
