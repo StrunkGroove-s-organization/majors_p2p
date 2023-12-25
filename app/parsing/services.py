@@ -731,8 +731,8 @@ class BitpapaParsing(BaseParsingP2P):
         record.token = dict['token']
         record.price = dict['price']
 
-        record.order_q = float(ad.get('tradeMonthTimes', 0))
-        record.order_p = float(ad.get('orderCompleteRate', 0))
+        record.order_q = 2000
+        record.order_p = 100
         record.lim_min = float(ad['limit_min'])
         record.lim_max = float(ad['limit_max'])
         record.fiat = ad['currency_code']

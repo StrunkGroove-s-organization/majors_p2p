@@ -27,7 +27,7 @@ app.conf.beat_schedule = {
     },
     'beribit-task': {
         'task': 'parsing.tasks.beribit',
-        'schedule': 20,
+        'schedule': 5,
     },
     'huobi-task': {
         'task': 'parsing.tasks.huobi',
