@@ -874,6 +874,7 @@ class MexcParsing(BaseParsingP2P):
         record.lim_min = float(ad['minTradeLimit'])
         record.lim_max = float(ad['maxTradeLimit'])
         record.fiat = ad['currency'].upper()
+        record.adv_no = ad['merchant']['memberId']
         available = ad['availableQuantity']
         record.available = round(available, 4)
         record.available_rub = available * dict['price']
